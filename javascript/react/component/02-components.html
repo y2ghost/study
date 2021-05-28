@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <title>React组件例子</title>
+  </head>
+  <body>
+    <div id="react-container"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+
+    <script>
+      class IngredientsList extends React.Component {
+        render() {
+          return React.createElement(
+            "ul",
+            { className: "ingredients" },
+            this.props.items.map((ingredient, i) =>
+              React.createElement("li", { key: i }, ingredient)
+            )
+          );
+        }
+      }
+
+      const items = [
+        "1磅三文鱼",
+        "1杯松子",
+        "2杯黄油生菜",
+        "1只黄南瓜",
+        "1/2杯橄榄油",
+        "3瓣大蒜",
+      ];
+
+      ReactDOM.render(
+        React.createElement(IngredientsList, { items }, null),
+        document.getElementById("react-container")
+      );
+    </script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <title>React元素例子</title>
+  </head>
+  <body>
+    <div id="react-container"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script>
+      const items = [
+        "1磅三文鱼",
+        "1杯松子",
+        "2杯黄油生菜",
+        "1只黄南瓜",
+        "1/2杯橄榄油",
+        "3瓣大蒜",
+      ];
+
+      const ingredients = React.createElement(
+        "ul",
+        { className: "ingredients" },
+        items.map((ingredient, i) =>
+          React.createElement("li", { key: i }, ingredient)
+        )
+      );
+
+      ReactDOM.render(ingredients, document.getElementById("react-container"));
+      console.log("ingredients", ingredients);
+    </script>
+  </body>
+</html>

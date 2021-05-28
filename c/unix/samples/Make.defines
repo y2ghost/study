@@ -1,0 +1,12 @@
+CC := cc
+LDFLAGS :=
+RANLIB := ranlib
+AR := ar
+AWK := awk
+LDDIR = -L$(ROOT)/lib
+LDLIBS = $(LDDIR) -lapue $(EXTRALIBS)
+CFLAGS = -I$(ROOT)/include -Wall -Werror -g -O2 -DLINUX -D_GNU_SOURCE $(EXTRA)
+LIBAPUE = $(ROOT)/lib/libapue.a
+SOURCES := $(shell echo *.c)
+# Common temp files to delete from each directory.
+TEMPFILES := core core.* *.o temp.* *.out

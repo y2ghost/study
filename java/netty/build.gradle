@@ -1,0 +1,27 @@
+plugins {
+    id "java"
+}
+
+repositories {
+    maven {
+        url "https://maven.aliyun.com/repository/public/"
+    }
+}
+
+dependencies {
+    implementation "io.netty:netty-all:${nettyVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+group = "study.ywork"
+version = "1.0"
+

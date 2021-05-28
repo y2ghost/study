@@ -1,0 +1,28 @@
+plugins {
+    id "java"
+}
+
+repositories {
+    maven {
+        url "https://maven.aliyun.com/repository/public/"
+    }
+}
+
+dependencies {
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.3"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.6.3"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.6.3"
+    testImplementation "org.hamcrest:hamcrest:2.2"
+}
+
+group = "study.ywork"
+version = "1.0"
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+test {
+    useJUnitPlatform()
+}
+

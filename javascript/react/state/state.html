@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <title>YY学习React</title>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+  </head>
+
+  <body>
+    <div id="container"></div>
+    <script type="text/babel">
+      let destination = document.querySelector("#container");
+      class LightningCounter extends React.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+            strikes: 0,
+          };
+          {
+            /* 使用定时函数时，默认this为全局对象 */
+            /* 需要timerTick函数this始终绑定本对象 */
+          }
+          this.timerTick = this.timerTick.bind(this);
+        }
+
+        timerTick() {
+          this.setState((prevState) => {
+            return {
+              strikes: prevState.strikes + 100,
+            };
+          });
+        }
+
+        componentDidMount() {
+          setInterval(this.timerTick, 1000);
+        }
+
+        render() {
+          let counterStyle = {
+            color: "#66FFFF",
+            fontSize: 50,
+          };
+          let count = this.state.strikes.toLocaleString();
+          return <h1 style={counterStyle}>{count}</h1>;
+        }
+      }
+
+      class LightningCounterDisplay extends React.Component {
+        render() {
+          let commonStyle = {
+            margin: 0,
+            padding: 0,
+          };
+          let divStyle = {
+            width: 250,
+            textAlign: "center",
+            backgroundColor: "#020202",
+            padding: 40,
+            fontFamily: "sans-serif",
+            color: "#999999",
+            borderRadius: 10,
+          };
+          let textStyles = {
+            emphasis: {
+              fontSize: 38,
+              ...commonStyle,
+            },
+            small: {
+              fontSize: 17,
+              opacity: 0.5,
+              ...commonStyle,
+            },
+          };
+
+          return (
+            <div style={divStyle}>
+              <LightningCounter />
+              <h2 style={textStyles.smallEmphasis}>显示计数器</h2>
+              <h2 style={textStyles.emphasis}>快来体验</h2>
+              <p style={textStyles.small}>(感谢你测试这个例子)</p>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<LightningCounterDisplay />, destination);
+    </script>
+  </body>
+</html>

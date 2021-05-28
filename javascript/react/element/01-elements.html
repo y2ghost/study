@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <title>React元素例子</title>
+  </head>
+  <body>
+    <div id="react-container"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+
+    <script>
+      const dish = React.createElement("h1", null, "烤三文鱼");
+      ReactDOM.render(dish, document.getElementById("react-container"));
+      console.log("dish", dish);
+    </script>
+  </body>
+</html>

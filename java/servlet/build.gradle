@@ -1,0 +1,23 @@
+plugins {
+    id "war"
+    id "java"
+}
+
+repositories {
+    maven {
+        url "https://maven.aliyun.com/repository/public/"
+    }
+}
+
+dependencies {
+    compileOnly "javax.servlet:javax.servlet-api:4.0.1"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+group = "study.ywork"
+version = "1.0"
+description = "servlet"
+

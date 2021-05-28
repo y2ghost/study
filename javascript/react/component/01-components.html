@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8" />
+    <title>React组件例子</title>
+  </head>
+  <body>
+    <div id="react-container"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+
+    <script>
+      function IngredientsList() {
+        return React.createElement(
+          "ul",
+          { className: "ingredients" },
+          React.createElement("li", null, "1杯无盐黄油"),
+          React.createElement("li", null, "1杯香脆花生酱"),
+          React.createElement("li", null, "1杯红糖"),
+          React.createElement("li", null, "1杯白糖"),
+          React.createElement("li", null, "2个鸡蛋"),
+          React.createElement("li", null, "2.5杯中筋面粉"),
+          React.createElement("li", null, "1茶匙酵母"),
+          React.createElement("li", null, "0.5茶匙盐")
+        );
+      }
+
+      ReactDOM.render(
+        React.createElement(IngredientsList, null, null),
+        document.getElementById("react-container")
+      );
+    </script>
+  </body>
+</html>
