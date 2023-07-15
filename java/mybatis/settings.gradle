@@ -1,0 +1,21 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }   
+}
+
+rootProject.name = "mybatis"
+include(":annotation")
+include(":cache")
+include(":crud")
+include(":dao")
+include(":dynamicSQL")
+include(":intro")
+include(":lazy")
+include(":manyToMany")
+include(":moreAnnotation")
+include(":moreDao")
+include(":oneToMany")
+include(":oneTwoManyAnnotation")
+include(":transaction")
+

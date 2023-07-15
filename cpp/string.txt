@@ -1,0 +1,6 @@
+字符串类型说明
+- char*一般是ASCII的字符串，UNIX系统则是UTF-8字符串
+- wchar_t*一般是宽字符，依赖编译器实现，Windows使用UTF-16
+- std::string内部管理维护char*类型字符串
+- std::wstring内部管理维护wchar_t*类型字符串
+

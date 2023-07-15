@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    maven { url "https://maven.aliyun.com/repository/public/" }
+}
+
+dependencies {
+    implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.5.3.Final"
+    testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.9.2'
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
+group 'study.ywork'
+version '1.0'
+
