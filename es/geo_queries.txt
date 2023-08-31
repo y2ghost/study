@@ -16,7 +16,6 @@ POST /mybooks-join/_search
 POST /mygeo-index/_search?pretty
 {"query":{"geo_bounding_box":{"pin.location":{"bottom_right":{"lat":40.03,"lon":72},"top_left":{"lat":40.717,"lon":70.99}}}}}
 
-
 # geo-polygon查询
 POST /mygeo-index/_search
 {"query":{"geo_polygon":{"pin.location":{"points":[{"lat":50,"lon":-30},{"lat":30,"lon":-80},{"lat":80,"lon":-90}]}}}}
@@ -24,5 +23,4 @@ POST /mygeo-index/_search
 # geo-distance查询
 GET /mygeo-index/_search
 {"query":{"geo_distance":{"pin.location":{"lat":40,"lon":70},"distance":"200km"}}}
-
 

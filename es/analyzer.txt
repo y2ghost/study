@@ -68,3 +68,15 @@ POST _analyze
   "text": "这个苹果不大好吃"
 }
 
+# 创建自定义analyzer示例
+# type: 指定分词器类型，接受内置分词器以及custom值
+# tokenizer: 指定分词器
+# char_filter: 指定字符过滤器
+# filter: 指定分词过滤器
+
+PUT test-index
+{"settings":{"analysis":{"analyzer":{"my_custom_analyzer":{"type":"custom","tokenizer":"standard","char_filter":["html_strip"],"filter":["lowercase","asciifolding"]}}}}}
+
+POST test-index/_analyze
+{"analyzer":"my_custom_analyzer","text":"Is this <b>déjà vu</b>?"}
+

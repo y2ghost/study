@@ -131,5 +131,3 @@ PUT /_bulk
 POST /index-pipagg/_search?size=0
 {"aggs":{"sales_per_month":{"date_histogram":{"field":"date","interval":"month"},"aggs":{"sales":{"sum":{"field":"price"}}}},"stats_monthly_sales":{"extended_stats_bucket":{"buckets_path":"sales_per_month>sales"}}}}
 
-
-
