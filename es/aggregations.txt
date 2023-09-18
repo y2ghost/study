@@ -26,9 +26,6 @@ GET /index-agg/_search?size=0
 {"query":{"terms":{"tag":["ullam","in","ex"]}},"aggs":{"tags":{"terms":{"field":"tag"}}}}
 
 GET /index-agg/_search?size=0
-{"query":{"terms":{"tag":["ullam","in","ex"]}},"aggs":{"tags":{"terms":{"field":"tag"}}}}
-
-GET /index-agg/_search?size=0
 {"aggregations":{"my_sample":{"sampler":{"shard_size":100},"aggregations":{"keywords":{"significant_text":{"field":"description"}}}}}}
 
 # range-aggregation查询
