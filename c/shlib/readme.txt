@@ -23,8 +23,9 @@
   > 库文件的软连接，可用于无版本的动态库链接
 
 动态库搜索路径概述
-- 程序自身rpath路径
+- 程序自身rpath路径(库里面维护的DT_RPATH信息)
 - LB_LIBRARY_PATH环境变量指定的路径
+- 程序自身runpath路径(库里面维护的DT_RUNPATH信息)
 - /etc/ld.so.cache里面查找路径
 - 系统的库路径(/lib64,/usr/lib64...)
 
@@ -35,4 +36,3 @@
 测试动态库示例
 - LD_PRELOAD=libalt.so ./prog
 - LD_DEBUG=help date
-
