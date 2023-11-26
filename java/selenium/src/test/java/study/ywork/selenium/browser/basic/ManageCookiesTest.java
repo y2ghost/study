@@ -12,8 +12,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v109.network.Network;
-import org.openqa.selenium.devtools.v109.network.model.Cookie;
+import org.openqa.selenium.devtools.v119.network.Network;
+import org.openqa.selenium.devtools.v119.network.model.Cookie;
+import org.openqa.selenium.devtools.v119.storage.Storage;
 import org.slf4j.Logger;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -45,7 +46,7 @@ public class ManageCookiesTest {
         driver.get("http://localhost:8080/cookies.html");
 
         // 读取cookies
-        List<Cookie> cookies = devTools.send(Network.getAllCookies());
+        List<Cookie> cookies = devTools.send(Storage.getCookies(null));
         cookies.forEach(cookie -> log.debug("{}={}", cookie.getName(), cookie.getValue()));
         List<String> cookieName = cookies.stream().map(cookie -> cookie.getName()).sorted()
                 .collect(Collectors.toList());
@@ -56,7 +57,7 @@ public class ManageCookiesTest {
 
         // 清除cookies
         devTools.send(Network.clearBrowserCookies());
-        List<Cookie> cookiesAfterClearing = devTools.send(Network.getAllCookies());
+        List<Cookie> cookiesAfterClearing = devTools.send(Storage.getCookies(null));
         assertThat(cookiesAfterClearing).isEmpty();
 
         driver.findElement(By.id("refresh-cookies")).click();
