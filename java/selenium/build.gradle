@@ -99,6 +99,7 @@ ext {
     bootVersion = "3.1.6"
     appiumVersion = "8.6.0"
     restAssuredVersion = "5.3.2"
+    poiVersion = "5.2.5"
 }
 
 dependencies {
@@ -107,6 +108,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:${logbackVersion}")
     implementation("org.springframework.boot:spring-boot-starter:${bootVersion}")
     implementation("org.springframework.boot:spring-boot-starter-web:${bootVersion}")
+    implementation("org.apache.poi:poi:${poiVersion}")
+    implementation("org.apache.poi:poi-ooxml:${poiVersion}")
+    implementation("org.apache.poi:poi-scratchpad:${poiVersion}")
     // 测试依赖
     testImplementation("org.seleniumhq.selenium:selenium-java:${seleniumVersion}")
     testImplementation("org.testng:testng:${testNgVersion}")
