@@ -1,6 +1,6 @@
-es_tgz="elasticsearch-7.17.12-darwin-x86_64.tar.gz"
-kibana_tgz="kibana-7.17.12-darwin-x86_64.tar.gz"
-logstash_tgz="logstash-7.17.12-darwin-x86_64.tar.gz"
+es_tgz="elasticsearch-7.17.16-darwin-x86_64.tar.gz"
+kibana_tgz="kibana-7.17.16-darwin-x86_64.tar.gz"
+logstash_tgz="logstash-7.17.16-darwin-x86_64.tar.gz"
 temp_dir="tmp_elk_$$"
 
 mkdir ${temp_dir}
