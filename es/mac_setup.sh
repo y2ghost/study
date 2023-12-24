@@ -1,6 +1,6 @@
-es_tgz="elasticsearch-7.17.16-darwin-x86_64.tar.gz"
-kibana_tgz="kibana-7.17.16-darwin-x86_64.tar.gz"
-logstash_tgz="logstash-7.17.16-darwin-x86_64.tar.gz"
+es_tgz="elasticsearch-8.11.3-darwin-x86_64.tar.gz"
+kibana_tgz="kibana-8.11.3-darwin-x86_64.tar.gz"
+logstash_tgz="logstash-8.11.3-darwin-x86_64.tar.gz"
 temp_dir="tmp_elk_$$"
 
 mkdir ${temp_dir}
@@ -10,6 +10,7 @@ curl -fsSL -o ${es_tgz} https://artifacts.elastic.co/downloads/elasticsearch/${e
 tar xfvz ${es_tgz}
 rm -f ${es_tgz}
 mv elasticsearch-* elasticsearch
+echo "xpack.security.enabled: false" >> elasticsearch/config/elasticsearch.yml
 
 curl -fsSL -o ${kibana_tgz} https://artifacts.elastic.co/downloads/kibana/${kibana_tgz}
 tar xfvz ${kibana_tgz}
