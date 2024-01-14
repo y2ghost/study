@@ -2,43 +2,33 @@
 #include <netdb.h>
 #include <string.h>
 #include <arpa/inet.h>
+#include <stdio.h>
 
 void set_address(const char *hname, const char *sname, const char *protocol,
     struct sockaddr_in *sap)
 {
-    struct sockaddr_in sap_;
-	struct servent *sp = NULL;
-	struct hostent *hp = NULL;
-	char *endptr = NULL;
-	short port = 0;
-
-    memset(&sap_, 0x0, sizeof(sap_));
-	sap_.sin_family = AF_INET;
-
-	if (hname != NULL) {
-		if (!inet_aton(hname, &sap_.sin_addr)) {
-			hp = gethostbyname(hname);
-			if (hp == NULL) {
-                error(1, 0, "unknown host: %s\n", hname);
-            }
-
-			sap_.sin_addr = *(struct in_addr *)hp->h_addr;
-		}
-	} else {
-        sap_.sin_addr.s_addr = htonl(INADDR_ANY);
+    int socktype = 0;
+    if (0 == strcmp("tcp", protocol)) {
+        socktype = SOCK_STREAM;
+    } else if (0 == strcmp("udp", protocol)) {
+        socktype = SOCK_DGRAM;
+    } else {
+        socktype = 0;
     }
 
-	port = strtol(sname, &endptr, 0);
-	if (*endptr == '\0') {
-        sap_.sin_port = htons(port);
-    } else {
-		sp = getservbyname(sname, protocol);
-		if (sp == NULL) {
-			error(1, 0, "unknown service: %s\n", sname);
-        }
+    struct addrinfo hints;
+    struct addrinfo *ai = NULL;
+    memset(&hints, 0, sizeof hints);
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = socktype;
+    hints.ai_flags = AI_PASSIVE;
+    int rv = getaddrinfo(hname, sname, &hints, &ai);
 
-		sap_.sin_port = sp->s_port;
-	}
+    if (0 != rv) {
+        fprintf(stderr, "selectserver: %s\n", gai_strerror(rv));
+        exit(1);
+    }
 
-    memcpy(sap, &sap_, sizeof(*sap));
+    struct sockaddr_in* sa = (struct sockaddr_in*)ai->ai_addr;
+    memcpy(sap, &(sa->sin_addr), sizeof(*sap));
 }

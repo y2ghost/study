@@ -42,7 +42,9 @@ int main(int argc, char *argv[])
         printf("%8ld ", (long) ut->ut_session);
 
         in.s_addr = ut->ut_addr_v6[0];
-        printf(" %-15.15s ", inet_ntoa(in));
+        char host_info[INET6_ADDRSTRLEN] = {0};
+        inet_ntop(AF_INET, &in, host_info, sizeof(host_info));
+        printf(" %-15.15s ", host_info);
         time_t tv_sec = ut->ut_tv.tv_sec;
         printf("%s", ctime((time_t *) &tv_sec));
     }

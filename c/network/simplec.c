@@ -13,7 +13,7 @@ int main(int ac, char **av)
 
     peer.sin_family = AF_INET;
     peer.sin_port = htons(7500);
-    peer.sin_addr.s_addr = inet_addr("127.0.0.1");
+    inet_pton(AF_INET, "127.0.0.1", &peer.sin_addr);
     sock = socket(AF_INET, SOCK_STREAM, 0);
 
     if (sock < 0) {
