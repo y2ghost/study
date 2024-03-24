@@ -3,7 +3,8 @@ include $(ROOT)/Make.defines
 
 PROGS := dataTypesExample ioExample nsExample \
 	functonClassExample storageExample classExample sharedPtrExample castExample \
-	exceptionExample pointerExample pimplExample templateExample lambdaExample
+	exceptionExample pointerExample pimplExample templateExample lambdaExample \
+	copyAndSwap
 
 all: $(PROGS)
 
