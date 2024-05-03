@@ -1,0 +1,26 @@
+Option Explicit
+
+Sub Hello()
+MsgBox "你好VBA"
+End Sub
+
+Sub ArrayExamples()
+'一维数组
+Dim arrayDirect1D(2) As String
+arrayDirect1D(0) = "A"
+arrayDirect1D(1) = "B"
+arrayDirect1D(2) = "C"
+
+' 多维数组
+Dim arrayDirectMulti(1, 1, 2)
+arrayDirectMulti(0, 0, 0) = "A"
+arrayDirectMulti(0, 0, 1) = "B"
+arrayDirectMulti(0, 0, 2) = "C"
+arrayDirectMulti(0, 1, 0) = "D"
+
+'一维数组
+Dim array1D As Variant
+array1D = Array(1, 2, "A")
+
+End Sub
+

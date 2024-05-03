@@ -1,0 +1,3 @@
+study.ywork.basis.api.annotation.DateFormatProcessor
+study.ywork.basis.api.annotation.EqualMethodProcessor
+study.ywork.basis.api.annotation.AutoGenerateProcessor

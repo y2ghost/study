@@ -1,0 +1,12 @@
+CC := cc
+LDFLAGS :=
+RANLIB := ranlib
+AR := ar
+AWK := awk
+LDDIR = -L$(ROOT)/lib
+LDLIBS = $(LDDIR) -lcommon $(EXTRALIBS)
+CFLAGS = -I$(ROOT)/include -Wall -Werror -g -O2 -DLINUX -D_GNU_SOURCE $(EXTRA)
+LIBCOMMON = $(ROOT)/lib/libcommon.a
+SOURCES := $(shell echo *.c)
+# 匹配通用的临时文件
+TEMPFILES := core core.* *.o temp.* *.out

@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+check()
+{
+    sudo package-cleanup --oldkernels --count 1
+    package-cleanup --problems
+    package-cleanup --orphans
+    package-cleanup --leaves
+}
+
+check
+exit 0

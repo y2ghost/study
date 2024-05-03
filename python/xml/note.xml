@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<note_taker>
+  <note>
+    <to>yy</to>
+    <from>备忘录</from>
+    <heading>提醒</heading>
+    <body>别忘了牛奶</body>
+  </note>
+  <note>
+    <to>tt</to>
+    <from>备忘录</from>
+    <heading>预约</heading>
+    <body>遛狗</body>
+  </note>
+</note_taker>
+
