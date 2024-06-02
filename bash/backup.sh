@@ -1,8 +1,8 @@
 #!/bin/bash
 
 TITLE="cron backup report for $(hostname -s) from $(date +%Y%m%d:%T)"
-FROM=root@y2ghost.work
-EMAIL=snrtcel@126.com
+FROM=root@test.local
+EMAIL=test@t.cn
 SOURCE=~/source
 DEST=~/dest
 LFPATH=/tmp
