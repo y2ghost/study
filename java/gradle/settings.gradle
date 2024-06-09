@@ -1,0 +1,15 @@
+dependencyResolutionManagement {
+    repositories {
+        maven {
+            url "https://maven.aliyun.com/repository/public/"
+        }   
+        mavenLocal()
+         mavenCentral()
+    }
+}
+
+rootProject.name = "gradle-study"
+include("app")
+include("lib")
+includeBuild("gradle/license-plugin")
+
