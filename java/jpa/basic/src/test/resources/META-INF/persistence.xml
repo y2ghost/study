@@ -1,0 +1,26 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    version="2.0">
+    <persistence-unit name="study.ywork.jpa">
+        <description>测试JPA配置</description>
+        <class>study.ywork.jpa.envers.Event</class>
+        <class>study.ywork.jpa.entitymanager.Event</class>
+        <properties>
+            <!-- 数据库链接配置 -->
+            <property name="jakarta.persistence.jdbc.url"
+                value="jdbc:h2:mem:db1;DB_CLOSE_DELAY=-1" />
+            <property name="jakarta.persistence.jdbc.user" value="sa" />
+            <property name="jakarta.persistence.jdbc.password" value="" />
+            <!-- 自动导出数据库 -->
+            <property
+                name="jakarta.persistence.schema-generation.database.action"
+                value="create" />
+            <!-- 查看SQL执行情况 -->
+            <property name="hibernate.show_sql" value="true" />
+            <property name="hibernate.format_sql" value="true" />
+            <property name="hibernate.highlight_sql" value="true" />
+        </properties>
+    </persistence-unit>
+</persistence>

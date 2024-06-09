@@ -1,0 +1,33 @@
+allprojects {
+    group = "study.ywork.jpa"
+    version = "1.1"
+}
+
+subprojects {
+    apply plugin: "java"
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
+        }
+    }
+
+    dependencies {
+        implementation platform(libs.hibernate.platform)
+        // 使用hibernate platform里面的依赖版本
+        implementation "org.hibernate.orm:hibernate-core"
+        implementation "org.hibernate.orm:hibernate-envers"
+        implementation "jakarta.transaction:jakarta.transaction-api"
+        testImplementation platform(libs.junit5.bom)
+        testImplementation "org.junit.jupiter:junit-jupiter-engine"
+        testImplementation "org.junit.jupiter:junit-jupiter-params"
+        testImplementation libs.db.h2
+        testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+    }
+
+    tasks.named("test") {
+        useJUnitPlatform()
+    }
+}
+
+description = "JPA学习项目"
+

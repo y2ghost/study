@@ -1,0 +1,10 @@
+[versions]
+hibernate = "6.5.2.Final"
+h2 = "2.2.224"
+junit5 = "5.10.2"
+
+[libraries]
+hibernate-platform = { module = "org.hibernate.orm:hibernate-platform", version.ref = "hibernate" }
+db-h2 = { module = "com.h2database:h2", version.ref = "h2" }
+junit5-bom = { module = "org.junit:junit-bom", version.ref = "junit5" }
+
