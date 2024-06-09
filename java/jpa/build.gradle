@@ -5,6 +5,18 @@ allprojects {
 
 subprojects {
     apply plugin: "java"
+    apply plugin: "eclipse"
+
+    eclipse {
+        sourceSets {
+            main {
+                java {
+                    srcDirs += ["build/generated/sources/annotationProcessor/java/main"]
+                }
+            }
+        }
+    }
+
     java {
         toolchain {
             languageVersion = JavaLanguageVersion.of(17)
@@ -16,11 +28,17 @@ subprojects {
         // 使用hibernate platform里面的依赖版本
         implementation "org.hibernate.orm:hibernate-core"
         implementation "org.hibernate.orm:hibernate-envers"
+        implementation "org.hibernate.orm:hibernate-hikaricp"
         implementation "jakarta.transaction:jakarta.transaction-api"
+        implementation libs.hibernate.validator
+        implementation libs.el.api
+        implementation libs.zaxxer.hikariCP
+        implementation libs.log4j.core
+        implementation libs.db.h2
+        annotationProcessor libs.hibernate.jpamodelgen
         testImplementation platform(libs.junit5.bom)
         testImplementation "org.junit.jupiter:junit-jupiter-engine"
         testImplementation "org.junit.jupiter:junit-jupiter-params"
-        testImplementation libs.db.h2
         testRuntimeOnly "org.junit.platform:junit-platform-launcher"
     }
 
