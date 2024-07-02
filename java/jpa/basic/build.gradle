@@ -1,8 +1,0 @@
-plugins {
-    id "application"
-}
-
-application {
-    mainClass = project.properties.getOrDefault("mainClass", "study.ywork.jpa.hello.Main")
-}
-

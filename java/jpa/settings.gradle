@@ -1,13 +1,2 @@
-dependencyResolutionManagement {
-    repositories {
-        maven {
-            url "https://maven.aliyun.com/repository/public/"
-        }
-        mavenLocal()
-         mavenCentral()
-    }
-}
-
 rootProject.name = "jpa"
-include("basic")
 
