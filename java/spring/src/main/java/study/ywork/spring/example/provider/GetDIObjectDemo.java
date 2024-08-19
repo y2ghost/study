@@ -1,12 +1,12 @@
 package study.ywork.spring.example.provider;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import study.ywork.spring.provider.FirstBean;
-import javax.annotation.PostConstruct;
 
 @Configuration
 public class GetDIObjectDemo {

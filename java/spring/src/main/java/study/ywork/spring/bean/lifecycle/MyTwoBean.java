@@ -3,8 +3,9 @@ package study.ywork.spring.bean.lifecycle;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@SuppressWarnings("unused")
+@Component
 public class MyTwoBean implements InitializingBean, DisposableBean {
     private OtherBean otherBean;
 

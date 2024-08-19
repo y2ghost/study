@@ -1,10 +1,13 @@
 package study.ywork.spring.bean.lifecycle;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+
+import jakarta.annotation.PostConstruct;
+import jakarta.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @SuppressWarnings("unused")
+@Component
 public class MyOneBean {
     private OtherBean otherBean;
 

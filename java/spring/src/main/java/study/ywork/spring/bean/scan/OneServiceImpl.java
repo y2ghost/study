@@ -1,8 +1,8 @@
 package study.ywork.spring.bean.scan;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import javax.annotation.PostConstruct;
 
 @Lazy
 @Component("basic-service")
