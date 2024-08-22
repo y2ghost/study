@@ -1,4 +1,6 @@
-package algs;
+package algs.test;
+
+import algs.collection.PriorityQueue;
 
 public class PriorityQueueTest {
     public static void main(String[] args) {

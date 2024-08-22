@@ -1,4 +1,4 @@
-package algs;
+package algs.collection;
 
 public class LinkList {
     private Link first;
@@ -79,14 +79,14 @@ public class LinkList {
 
         return current;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder("List(first-->last)\n");
-        for (Link link=first; null!=link; link=link.next) {
+        for (Link link = first; null != link; link = link.next) {
             builder.append(link).append("\n");
         }
-        
+
         return builder.toString();
     }
 }

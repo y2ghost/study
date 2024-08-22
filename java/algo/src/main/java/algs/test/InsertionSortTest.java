@@ -1,4 +1,6 @@
-package algs;
+package algs.test;
+
+import algs.collection.InsertionSort;
 
 public class InsertionSortTest {
     public static void main(String[] args) {

@@ -1,4 +1,6 @@
-package algs;
+package algs.test;
+
+import algs.collection.Bag;
 
 class BagTest {
     public static void main(String[] args) {

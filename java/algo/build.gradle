@@ -1,17 +1,29 @@
 plugins {
-    id 'java'
+    id "java"
 }
 
 repositories {
-    maven {
-        url 'https://maven.aliyun.com/repository/public/'
+    maven { url "https://maven.aliyun.com/repository/public/" }
+}
+
+group = "study.ywork"
+version = "1.0"
+
+dependencies {
+    testImplementation libs.testng
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
+tasks.named("test") {
+    useTestNG()
 }
 
-group = 'study.ywork'
-version = '1.0'
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = "UTF-8"
+}
 

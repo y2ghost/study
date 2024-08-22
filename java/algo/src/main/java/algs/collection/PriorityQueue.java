@@ -1,4 +1,4 @@
-package algs;
+package algs.collection;
 
 public class PriorityQueue {
     private final long[] array;
@@ -18,15 +18,15 @@ public class PriorityQueue {
         }
 
         int i = 0;
-        for (i=count-1; i>=0; --i) {
+        for (i = count - 1; i >= 0; --i) {
             if (elm <= array[i]) {
                 break;
             }
 
-            array[i+1] = array[i];
+            array[i + 1] = array[i];
         }
 
-        array[i+1] = elm;
+        array[i + 1] = elm;
         count++;
     }
 
@@ -43,6 +43,6 @@ public class PriorityQueue {
     }
 
     public long peek() {
-        return array[count-1];
+        return array[count - 1];
     }
 }

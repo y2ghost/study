@@ -1,4 +1,6 @@
-package algs;
+package algs.test;
+
+import algs.collection.Stack;
 
 public class StackTest {
     public static void main(String[] args) {

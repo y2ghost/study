@@ -1,10 +1,10 @@
-package algs;
+package algs.collection;
 
-class SelectionSort {
+public class BubbleSort {
     private final long[] array;
     private int count;
 
-    public SelectionSort(int max) {
+    public BubbleSort(int max) {
         array = new long[max];
         count = 0;
     }
@@ -14,23 +14,19 @@ class SelectionSort {
     }
 
     public void sort() {
-        int min = 0;
-        for (int out=0; out<count-1; ++out) {
-            min = out;
-            for (int in=out+1; in<count; in++) {
-                if (array[in] < array[min]) {
-                    min = in;
+        for (int out = count - 1; out > 1; out--) {
+            for (int in = 0; in < out; in++) {
+                if (array[in] > array[in + 1]) {
+                    swap(in, in + 1);
                 }
             }
-            
-            swap(out, min);
         }
     }
 
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        for (int i=0; i<count; ++i) {
+        for (int i = 0; i < count; ++i) {
             builder.append(array[i]).append(" ");
         }
 

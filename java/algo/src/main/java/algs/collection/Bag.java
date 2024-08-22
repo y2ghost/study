@@ -1,4 +1,4 @@
-package algs;
+package algs.collection;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -66,7 +66,7 @@ public class Bag<Item> implements Iterable<Item> {
             return item;
         }
     }
-    
+
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

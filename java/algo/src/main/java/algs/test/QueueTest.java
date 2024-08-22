@@ -1,4 +1,6 @@
-package algs;
+package algs.test;
+
+import algs.collection.Queue;
 
 public class QueueTest {
     public static void main(String[] args) {

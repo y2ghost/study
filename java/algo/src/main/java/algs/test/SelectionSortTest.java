@@ -1,4 +1,6 @@
-package algs;
+package algs.test;
+
+import algs.collection.SelectionSort;
 
 public class SelectionSortTest {
     public static void main(String[] args) {

@@ -1,4 +1,6 @@
-package algs;
+package algs.test;
+
+import algs.collection.LinkList;
 
 public class LinkListTest {
 
