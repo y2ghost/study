@@ -1,0 +1,13 @@
+@startuml
+skinparam actorStyle awesome
+:User: --> (Use)
+"Main Admin" as Admin
+"Use the application" as (Use)
+Admin --> (Admin the application)
+
+:user: -left-> (dummyLeft)
+:user: -right-> (dummyRight)
+:user: -up-> (dummyUp)
+:user: -down-> (dummyDown)
+
+@enduml
