@@ -43,3 +43,21 @@ def update_state(self, state):
     time.sleep(30)
 
 
+@app.task(bind=True)
+def onHello(self, a, b):
+    time.sleep(1)
+    self.update_state(state="PROGRESS", meta={'progress': 50})
+    time.sleep(1)
+    self.update_state(state="PROGRESS", meta={'progress': 90})
+    time.sleep(1)
+    return 'hello world: %i' % (a+b)
+
+
+if "__main__" == __name__:
+    def on_raw_message(body):
+        print(body)
+
+    a, b = 1, 1
+    r = onHello.apply_async(args=(a, b))
+    print(r.get(on_message=on_raw_message, propagate=False))
+
