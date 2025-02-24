@@ -1,0 +1,102 @@
+# 建立test索引
+PUT test
+
+# 删除test索引
+DELETE test
+
+# 定义test索引映射结构
+PUT test/_mapping
+{
+    "properties": {
+        "id": {"type": "keyword"},
+        "date": {"type":"date"},
+        "customer_id": {"type":"keyword"},
+        "sent": {"type":"boolean"},
+        "name": {"type":"keyword"},
+        "quantity": {"type":"integer"},
+        "price": {"type":"double"},
+        "vat": {"type":"double", "index": false}
+    }
+}
+
+# 查看test索引映射结构
+GET test/_mapping
+
+# 基本的CRUD操作示例
+PUT /myindex
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 2,
+      "number_of_replicas": 1
+    }
+  }
+}
+
+# 可以指定_all删除全部索引
+# 一般不建议全部删除的功能启用
+# 禁用配置(elasticsearch.yml)
+# action.destructive_requires_name: true
+DELETE /myindex
+
+# 打开或关闭索引
+POST /myindex/_close
+POST /myindex/_open
+
+# 定义映射结构
+PUT /myindex/_mapping
+{
+  "properties": {
+    "id": { "type": "keyword", "store": true },
+    "date": { "type": "date", "store": false },
+    "customer_id": { "type": "keyword", "store": true },
+    "sent": { "type": "boolean" },
+    "name": { "type": "text" },
+    "quantity": { "type": "integer" },
+    "vat": { "type": "double", "index": false }
+  }
+}
+
+# 查看映射结构
+GET /myindex/_mapping?pretty
+
+# 重建索引结构
+POST /_reindex
+{
+    "source": {"index": "myindex"},
+    "dest": {"index": "myindex2"}
+}
+
+# 刷新索引(使得搜索结果实时)
+POST /myindex/_refresh
+
+# 刷新索引(使得数据永久保存)
+POST /myindex/_flush
+
+# 合并索引
+POST /myindex/_forcemerge
+
+# 检查索引是否存在
+HEAD /myindex
+
+# 检查索引配置
+GET /myindex/_settings?pretty
+
+# 更改索引配置
+PUT /myindex/_settings
+{"index": {"number_of_replicas":2}}
+
+# 查看索引别名
+GET /_cat/aliases
+GET /_aliases
+GET /myindex/_alias
+
+# 设置索引别名
+PUT /myindex/_alias/myalias1
+
+# 删除索引别名
+DELETE /myindex/_alias/myalias1
+
+# 获取悬空索引
+GET /_dangling
+

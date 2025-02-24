@@ -1,0 +1,13 @@
+{
+  "menu": {
+    "id": "file",
+    "value": "文件",
+    "popup": {
+      "menuitem": [
+        { "value": "新建", "onclick": "CreateNewDoc()" },
+        { "value": "打开", "onclick": "OpenDoc()" },
+        { "value": "关闭", "onclick": "CloseDoc()" }
+      ]
+    }
+  }
+}

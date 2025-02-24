@@ -1,0 +1,157 @@
+plugins {
+    id "java"
+    id "io.qameta.allure" version "2.11.2"
+    id "org.springframework.boot" version "3.1.6"
+}
+
+jar {
+    archiveBaseName = "selenium"
+    archiveVersion = "1.1.1"
+}
+
+compileTestJava {
+    sourceCompatibility = 17
+    targetCompatibility = 17
+    options.compilerArgs += "-parameters"
+}
+
+test {
+    useTestNG() {
+        if (project.hasProperty("groups")) {
+            includeGroups "$groups"
+        }
+
+        if (project.hasProperty("excludedGroups")) {
+            excludeGroups "$excludedGroups"
+        }
+    }
+
+    scanForTestClasses = false
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
+
+    systemProperties System.properties
+    if (project.hasProperty("parallel")) {
+        maxParallelForks = Runtime.runtime.availableProcessors()
+    }
+
+    if (project.hasProperty("suite")) {
+        suites "$suite"
+    }
+
+    if (project.hasProperty("excludeTests")) {
+        "$excludeTests".split(",").each { excludeTests ->
+            exclude excludeTests
+        }
+    }
+
+    ext.failedTests = []
+    tasks.withType(Test) {
+        afterTest { TestDescriptor descriptor, TestResult result ->
+            if(result.resultType == org.gradle.api.tasks.testing.TestResult.ResultType.FAILURE) {
+                failedTests << ["${descriptor.className}::${descriptor.name}"]
+            }
+        }
+    }
+
+    gradle.buildFinished {
+        if(!failedTests.empty){
+            println "Failed test(s) for ${project.name}:"
+            failedTests.each { failedTest ->
+                println failedTest
+            }
+        }
+    }
+}
+
+allure {
+    version = "2.22.2"
+}
+
+repositories {
+    maven {
+        url "https://maven.aliyun.com/repository/public/"
+    }
+
+    maven {
+       url "https://plugins.gradle.org/m2/"
+    }
+}
+
+ext {
+    slf4jVersion = "2.0.9"
+    logbackVersion = "1.4.11"
+    seleniumVersion = "4.15.0"
+    testNgVersion = "7.8.0"
+    assertjVersion = "3.24.2"
+    wdmVersion = "5.6.2"
+    htmlunitVersion = "4.13.0"
+    awaitilityVersion = "4.2.0"
+    browsermobVersion = "2.1.5"
+    zapclientVersion = "1.12.0"
+    axelVersion = "4.8.0"
+    selenideVersion = "7.0.2"
+    datafakerVersion = "2.0.2"
+    extentreportsVersion = "5.1.1"
+    cucumberVersion = "7.14.0"
+    bootVersion = "3.1.6"
+    appiumVersion = "8.6.0"
+    restAssuredVersion = "5.3.2"
+    poiVersion = "5.2.5"
+}
+
+dependencies {
+    // 项目依赖
+    implementation("org.slf4j:slf4j-api:${slf4jVersion}")
+    implementation("ch.qos.logback:logback-classic:${logbackVersion}")
+    implementation("org.springframework.boot:spring-boot-starter:${bootVersion}")
+    implementation("org.springframework.boot:spring-boot-starter-web:${bootVersion}")
+    implementation("org.apache.poi:poi:${poiVersion}")
+    implementation("org.apache.poi:poi-ooxml:${poiVersion}")
+    implementation("org.apache.poi:poi-scratchpad:${poiVersion}")
+    // 测试依赖
+    testImplementation("org.seleniumhq.selenium:selenium-java:${seleniumVersion}")
+    testImplementation("org.testng:testng:${testNgVersion}")
+    testImplementation("org.assertj:assertj-core:${assertjVersion}")
+    testImplementation("io.github.bonigarcia:webdrivermanager:${wdmVersion}")
+    testImplementation("org.seleniumhq.selenium:selenium-grid:${seleniumVersion}")
+    testImplementation("org.awaitility:awaitility:${awaitilityVersion}")
+    testImplementation("org.zaproxy:zap-clientapi:${zapclientVersion}")
+    testImplementation("net.datafaker:datafaker:${datafakerVersion}")
+    testImplementation("io.cucumber:cucumber-java:${cucumberVersion}")
+    testImplementation("io.cucumber:cucumber-testng:${cucumberVersion}")
+    testImplementation("io.rest-assured:rest-assured:${restAssuredVersion}")
+
+    testImplementation("org.seleniumhq.selenium:htmlunit-driver:${htmlunitVersion}") {
+        exclude group: "org.seleniumhq.selenium", module: "*"
+    }
+
+    testImplementation("net.lightbody.bmp:browsermob-core:${browsermobVersion}") {
+        exclude group: "com.fasterxml.jackson.core", module: "*"
+    }
+
+    testImplementation("com.deque.html.axe-core:selenium:${axelVersion}") {
+        exclude group: "org.seleniumhq.selenium", module: "*"
+    }
+
+    testImplementation("com.codeborne:selenide:${selenideVersion}") {
+        exclude group: "org.seleniumhq.selenium", module: "selenium-java"
+        exclude group: "io.github.bonigarcia", module: "webdrivermanager"
+        exclude group: "org.apache.httpcomponents.client5", module: "httpclient5"
+    }
+
+    testImplementation("com.aventstack:extentreports:${extentreportsVersion}") {
+        exclude group: "org.junit.jupiter", module: "*"
+    }
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${bootVersion}") {
+        exclude group: "org.projectlombok", module: "lombok"
+    }
+
+    testImplementation("io.appium:java-client:${appiumVersion}") {
+        exclude group: "org.seleniumhq.selenium", module: "*"
+    }
+}
+

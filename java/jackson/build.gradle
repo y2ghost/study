@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    maven { url 'https://maven.aliyun.com/repository/public/' }
+    mavenLocal()
+}
+
+dependencies {
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${jackson_ver}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jackson_ver}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junit_ver}"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junit_ver}"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceCompatibility = '11'
+targetCompatibility = '11'
+

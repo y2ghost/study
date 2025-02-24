@@ -1,0 +1,152 @@
+事务相关接口接口
+- ```java
+- // 管理接口
+- public interface PlatformTransactionManager extends TransactionManager {
+-     TransactionStatus getTransaction(TransactionDefinition definition)
+-         throws TransactionException;
+-     void commit(TransactionStatus status) throws TransactionException;
+-     void rollback(TransactionStatus status) throws TransactionException;
+- }
+- // 反应式管理接口
+- public interface ReactiveTransactionManager extends TransactionManager {
+-     Mono<ReactiveTransaction> getReactiveTransaction(TransactionDefinition definition)
+-         throws TransactionException;
+-     Mono<Void> commit(ReactiveTransaction status) throws TransactionException;
+-     Mono<Void> rollback(ReactiveTransaction status) throws TransactionException;
+- }
+- // 事务状态接口
+- public interface TransactionStatus extends TransactionExecution,
+-     SavepointManager, Flushable {
+-     @Override
+-     boolean isNewTransaction();
+-     boolean hasSavepoint();
+-     @Override
+-     void setRollbackOnly();
+-     @Override
+-     boolean isRollbackOnly();
+-     void flush();
+-     @Override
+-     boolean isCompleted();
+- }
+- ```
+
+编程事务的两种方法
+- 使用TransactionTemplate或者TransactionalOperator
+- 使用TransactionManager
+
+TransactionTemplate方式示例
+- ```java
+- public class SimpleService implements Service {
+-     // 维护单个实例
+-     private final TransactionTemplate transactionTemplate;
+-     public SimpleService(PlatformTransactionManager transactionManager) {
+-         this.transactionTemplate = new TransactionTemplate(transactionManager);
+-     }
+- 
+-     public Object someServiceMethod() {
+-         return transactionTemplate.execute(new TransactionCallback() {
+-             // 执行事务
+-             public Object doInTransaction(TransactionStatus status) {
+-                 updateOperation1();
+-                 return resultOfUpdateOperation2();
+-             }
+-         });
+-     }
+-     public void someServiceMethod2() {
+-         // 示例没有返回值
+-         transactionTemplate.execute(new TransactionCallbackWithoutResult() {
+-             protected void doInTransactionWithoutResult(TransactionStatus status) {
+-                 try {
+-                     updateOperation1();
+-                     updateOperation2();
+-                 } catch (SomeBusinessException ex) {
+-                     status.setRollbackOnly();
+-                 }
+-             }
+-         });
+-     }
+- }
+- // 事务模板配置示例
+- public class SimpleService implements Service {
+-     private final TransactionTemplate transactionTemplate;
+- 
+-     public SimpleService(PlatformTransactionManager transactionManager) {
+-         this.transactionTemplate = new TransactionTemplate(transactionManager);
+-         // 配置参数
+-         this.transactionTemplate.setIsolationLevel(
+-             TransactionDefinition.ISOLATION_READ_UNCOMMITTED);
+-         this.transactionTemplate.setTimeout(30);
+-         // 可以按需配置其他参数
+-     }
+- }
+- ```
+
+TransactionalOperator方式示例
+- ```java
+- public class SimpleService implements Service {
+-     private final TransactionalOperator transactionalOperator;
+- 
+-     public SimpleService(ReactiveTransactionManager transactionManager) {
+-         this.transactionalOperator = TransactionalOperator.create(transactionManager);
+-     }
+- 
+-     // Operator-style风格
+-     public Mono<Object> someServiceMethod() {
+-         // 执行事务
+-         Mono<Object> update = updateOperation1();
+-         return update.then(resultOfUpdateOperation2).as(transactionalOperator::transactional);
+-     }
+- 
+-     // Callback-style风格
+-     public Mono<Object> someServiceMethod() {
+-         // 执行事务
+-         transactionalOperator.execute(new TransactionCallback<>() {
+-             public Mono<Object> doInTransaction(ReactiveTransaction status) {
+-                 return updateOperation1().then(updateOperation2)
+-                     .doOnError(SomeBusinessException.class, e -> status.setRollbackOnly());
+-             }
+-         }});
+-     }
+- }
+- // 配置示例
+- public class SimpleService implements Service {
+-     private final TransactionalOperator transactionalOperator;
+- 
+-     public SimpleService(ReactiveTransactionManager transactionManager) {
+-         DefaultTransactionDefinition definition = new DefaultTransactionDefinition();
+-         // 配置参数
+-         definition.setIsolationLevel(TransactionDefinition.ISOLATION_READ_UNCOMMITTED);
+-         definition.setTimeout(30);
+-         this.transactionalOperator = TransactionalOperator.create(transactionManager,
+-             definition);
+-     }
+- }
+- ```
+
+TransactionManager方式示例
+- ```java
+- // 顺序式方法
+- DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+- // 指定事务名称及配置参数
+- def.setName("SomeTxName");
+- def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+- TransactionStatus status = txManager.getTransaction(def);
+- try {
+-     // 执行事务业务逻辑
+- } catch (MyException ex) {
+-   txManager.rollback(status);
+-   throw ex;
+- }
+- txManager.commit(status);
+- // 反应式方法
+- DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+- def.setName("SomeTxName");
+- def.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+- Mono<ReactiveTransaction> reactiveTx = txManager.getReactiveTransaction(def);
+- reactiveTx.flatMap(status -> {
+-     Mono<Object> tx = ...; // 执行事务业务逻辑
+-     return tx.then(txManager.commit(status))
+-         .onErrorResume(ex -> txManager.rollback(status).then(Mono.error(ex)));
+- });
+- ```
+
