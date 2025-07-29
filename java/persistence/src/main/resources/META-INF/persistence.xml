@@ -1,0 +1,704 @@
+<persistence
+        version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+                            http://xmlns.jcp.org/xml/ns/persistence_2_2.xsd">
+    <persistence-unit name="hello">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.hello.Message</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property
+                    name="javax.persistence.schema-generation.database.action"
+                    value="drop-and-create"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.archive.autodetection" value="none"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="simple">
+        <jta-data-source>myDS</jta-data-source>
+        <mapping-file>simple/Queries.xml</mapping-file>
+        <class>study.ywork.jpa.model.simple.Item</class>
+        <class>study.ywork.jpa.model.simple.User</class>
+        <class>study.ywork.jpa.model.simple.Bid</class>
+        <class>study.ywork.jpa.model.simple.Address</class>
+        <class>study.ywork.jpa.model.simple.Category</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <!-- 删除数据时重置标识符 -->
+            <property name="hibernate.use_identifier_rollback" value="true"/>
+            <!-- 自定义表名策略
+            <property name="hibernate.physical_naming_strategy"
+                      value="study.ywork.jpa.share.CENamingStrategy"/>
+            -->
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="simpleXMLComplete">
+        <jta-data-source>myDS</jta-data-source>
+        <mapping-file>simple/Mappings.xml</mapping-file>
+        <mapping-file>simple/Queries.xml</mapping-file>
+        <properties>
+            <!-- 忽略 hbm.xml files 和注解类 -->
+            <property name="hibernate.archive.autodetection" value="none"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="simpleXMLOverride">
+        <jta-data-source>myDS</jta-data-source>
+        <mapping-file>simple/Queries.xml</mapping-file>
+        <mapping-file>simple/MappingsOverride.xml</mapping-file>
+        <class>study.ywork.jpa.model.simple.Item</class>
+        <class>study.ywork.jpa.model.simple.User</class>
+        <class>study.ywork.jpa.model.simple.Bid</class>
+        <class>study.ywork.jpa.model.simple.Address</class>
+        <class>study.ywork.jpa.model.simple.Category</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="simpleXMLHibernate">
+        <jta-data-source>myDS</jta-data-source>
+        <properties>
+            <!-- 仅仅加载hbm配置，忽略注解
+            <property name="hibernate.archive.autodetection"
+                      value="hbm"/>
+            -->
+            <!-- 自行选择所需配置进行处理，避免和hbm配置冲突 -->
+            <property name="hibernate.archive.autodetection"
+                      value="none"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="advanced">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.advanced.Item</class>
+        <class>study.ywork.jpa.model.advanced.Bid</class>
+        <class>study.ywork.jpa.model.advanced.User</class>
+        <class>study.ywork.jpa.model.advanced.Address</class>
+        <class>study.ywork.jpa.model.advanced.City</class>
+        <class>study.ywork.jpa.model.advanced.ItemBidSummary</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="converter">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.advanced.converter.Item</class>
+        <class>study.ywork.jpa.model.advanced.converter.User</class>
+        <class>study.ywork.jpa.converter.MonetaryAmountConverter</class>
+        <class>study.ywork.jpa.converter.ZipcodeConverter</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="userType">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.advanced.usertype.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="inheritanceEmbeddable">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.inheritance.embeddable.Measurement</class>
+        <class>study.ywork.jpa.model.inheritance.embeddable.Dimensions</class>
+        <class>study.ywork.jpa.model.inheritance.embeddable.Weight</class>
+        <class>study.ywork.jpa.model.inheritance.embeddable.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="mixedFetchSelect">
+        <jta-data-source>myDS</jta-data-source>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="joined">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.inheritance.joined.BillingDetails</class>
+        <class>study.ywork.jpa.model.inheritance.joined.CreditCard</class>
+        <class>study.ywork.jpa.model.inheritance.joined.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="mappedSuperclass">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.inheritance.mappedsuperclass.BillingDetails</class>
+        <class>study.ywork.jpa.model.inheritance.mappedsuperclass.CreditCard</class>
+        <class>study.ywork.jpa.model.inheritance.mappedsuperclass.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="mixed">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.inheritance.mixed.BillingDetails</class>
+        <class>study.ywork.jpa.model.inheritance.mixed.CreditCard</class>
+        <class>study.ywork.jpa.model.inheritance.mixed.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="polymorphicManyToOne">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.inheritance.associations.manytoone.BillingDetails</class>
+        <class>study.ywork.jpa.model.inheritance.associations.manytoone.BankAccount</class>
+        <class>study.ywork.jpa.model.inheritance.associations.manytoone.CreditCard</class>
+        <class>study.ywork.jpa.model.inheritance.associations.manytoone.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="polymorphicOneToMany">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.inheritance.associations.onetomany.BillingDetails</class>
+        <class>study.ywork.jpa.model.inheritance.associations.onetomany.BankAccount</class>
+        <class>study.ywork.jpa.model.inheritance.associations.onetomany.CreditCard</class>
+        <class>study.ywork.jpa.model.inheritance.associations.onetomany.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="singleTable">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.inheritance.singletable.BillingDetails</class>
+        <class>study.ywork.jpa.model.inheritance.singletable.CreditCard</class>
+        <class>study.ywork.jpa.model.inheritance.singletable.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="tablePerClass">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.inheritance.tableperclass.BillingDetails</class>
+        <class>study.ywork.jpa.model.inheritance.tableperclass.CreditCard</class>
+        <class>study.ywork.jpa.model.inheritance.tableperclass.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="bagOfEmbeddable">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.bagofembeddables.Item</class>
+        <class>study.ywork.jpa.model.collections.bagofembeddables.Image</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="bagOfString">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.bagofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="embeddableSetOfString">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.embeddablesetofstrings.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="listOfString">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.listofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="mapOfEmbeddable">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.mapofembeddables.Item</class>
+        <class>study.ywork.jpa.model.collections.mapofembeddables.Image</class>
+        <class>study.ywork.jpa.model.collections.mapofembeddables.Filename</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="mapOfString">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.mapofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="bagOfStringsOrderBy">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.bagofstringsorderby.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="mapOfStringsEmbeddable">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.mapofstringsembeddables.Item</class>
+        <class>study.ywork.jpa.model.collections.mapofstringsembeddables.Image</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="mapOfStringsOrderBy">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.mapofstringsorderby.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="setOfEmbeddable">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.setofembeddables.Item</class>
+        <class>study.ywork.jpa.model.collections.setofembeddables.Image</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="setOfEmbeddableOrderBy">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.setofembeddablesorderby.Item</class>
+        <class>study.ywork.jpa.model.collections.setofembeddablesorderby.Image</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="setOfString">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.setofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="setOfStringOrderBy">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.setofstringsorderby.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="sortedMapOfString">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.sortedmapofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="sortedSetOfString">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.collections.sortedsetofstrings.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="manyToManyBidirectional">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.manytomany.bidirectional.Category</class>
+        <class>study.ywork.jpa.model.associations.manytomany.bidirectional.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="manyToManyLinkEntity">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.manytomany.linkentity.Category</class>
+        <class>study.ywork.jpa.model.associations.manytomany.linkentity.Item</class>
+        <class>study.ywork.jpa.model.associations.manytomany.linkentity.CategorizedItem</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="manyToManyTernary">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.manytomany.ternary.Category</class>
+        <class>study.ywork.jpa.model.associations.manytomany.ternary.Item</class>
+        <class>study.ywork.jpa.model.associations.manytomany.ternary.User</class>
+        <class>study.ywork.jpa.model.associations.manytomany.ternary.CategorizedItem</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+
+    <persistence-unit name="mapsMapKey">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.maps.mapkey.Item</class>
+        <class>study.ywork.jpa.model.associations.maps.mapkey.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="mapsTernary">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.maps.ternary.Item</class>
+        <class>study.ywork.jpa.model.associations.maps.ternary.Category</class>
+        <class>study.ywork.jpa.model.associations.maps.ternary.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToManyBag">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetomany.bag.Item</class>
+        <class>study.ywork.jpa.model.associations.onetomany.bag.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToManyBidirectional">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetomany.bidirectional.Item</class>
+        <class>study.ywork.jpa.model.associations.onetomany.bidirectional.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToManyCascadePersist">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetomany.cascadepersist.Item</class>
+        <class>study.ywork.jpa.model.associations.onetomany.cascadepersist.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToManyCascadeRemove">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetomany.cascaderemove.Item</class>
+        <class>study.ywork.jpa.model.associations.onetomany.cascaderemove.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToManyEmbeddable">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetomany.embeddable.User</class>
+        <class>study.ywork.jpa.model.associations.onetomany.embeddable.Shipment</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToManyEmbeddableJoinTable">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetomany.embeddablejointable.User</class>
+        <class>study.ywork.jpa.model.associations.onetomany.embeddablejointable.Shipment</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToManyJoinTable">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetomany.jointable.Item</class>
+        <class>study.ywork.jpa.model.associations.onetomany.jointable.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToManyList">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetomany.list.Item</class>
+        <class>study.ywork.jpa.model.associations.onetomany.list.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToManyOnDeleteCascade">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetomany.ondeletecascade.Item</class>
+        <class>study.ywork.jpa.model.associations.onetomany.ondeletecascade.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToManyOrphanRemoval">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetomany.orphanremoval.Item</class>
+        <class>study.ywork.jpa.model.associations.onetomany.orphanremoval.Bid</class>
+        <class>study.ywork.jpa.model.associations.onetomany.orphanremoval.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToOneForeignKey">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetoone.foreignkey.User</class>
+        <class>study.ywork.jpa.model.associations.onetoone.foreignkey.Address</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToOneForeignGenerator">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetoone.foreigngenerator.User</class>
+        <class>study.ywork.jpa.model.associations.onetoone.foreigngenerator.Address</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToOneJoinTable">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetoone.jointable.Item</class>
+        <class>study.ywork.jpa.model.associations.onetoone.jointable.Shipment</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="oneToOneSharedPrimaryKey">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.associations.onetoone.sharedprimarykey.User</class>
+        <class>study.ywork.jpa.model.associations.onetoone.sharedprimarykey.Address</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="compositeKeyEmbeddedId">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.complexschemas.compositekey.embedded.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="compositeKeyManyToOne">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.complexschemas.compositekey.manytoone.User</class>
+        <class>study.ywork.jpa.model.complexschemas.compositekey.manytoone.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="compositeKeyMapsId">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.complexschemas.compositekey.mapsid.User</class>
+        <class>study.ywork.jpa.model.complexschemas.compositekey.mapsid.Department</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="compositeKeyReadOnly">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.complexschemas.compositekey.readonly.User</class>
+        <class>study.ywork.jpa.model.complexschemas.compositekey.readonly.Department</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="customSchema">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.complexschemas.custom.Bid</class>
+        <class>study.ywork.jpa.model.complexschemas.custom.Item</class>
+        <class>study.ywork.jpa.model.complexschemas.custom.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <!--
+        示例属性配置
+        <properties>
+            <property name="hibernate.hbm2ddl.import_files_sql_extractor"
+                      value="org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor"/>
+            <property name="javax.persistence.schema-generation.create-source"
+                      value="script-then-metadata"/>
+            <property name="javax.persistence.schema-generation.drop-source"
+                      value="metadata-then-script"/>
+            <property name="javax.persistence.schema-generation.create-script-source"
+                      value="complexschemas/CreateScript.sql.txt"/>
+            <property name="javax.persistence.schema-generation.drop-script-source"
+                      value="complexschemas/DropScript.sql.txt"/>
+            <property name="javax.persistence.sql-load-script-source"
+                      value="complexschemas/LoadScript.sql.txt"/>
+        </properties>
+        -->
+    </persistence-unit>
+
+    <persistence-unit name="naturalForeignKey">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.complexschemas.naturalforeignkey.User</class>
+        <class>study.ywork.jpa.model.complexschemas.naturalforeignkey.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="naturalPrimaryKey">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.complexschemas.naturalprimarykey.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="secondaryTable">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.complexschemas.secondarytable.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="concurrencyVersioning">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.concurrency.version.Item</class>
+        <class>study.ywork.jpa.model.concurrency.version.Bid</class>
+        <class>study.ywork.jpa.model.concurrency.version.Category</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="concurrencyVersioningAll">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.concurrency.versionall.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="concurrencyVersioningTimestamp">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.concurrency.versiontimestamp.Item</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="fetchingBatch">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.fetching.batch.Item</class>
+        <class>study.ywork.jpa.model.fetching.batch.User</class>
+        <class>study.ywork.jpa.model.fetching.batch.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="fetchingCartesianProduct">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.fetching.cartesianproduct.Item</class>
+        <class>study.ywork.jpa.model.fetching.cartesianproduct.User</class>
+        <class>study.ywork.jpa.model.fetching.cartesianproduct.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="fetchingEagerJoin">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.fetching.eagerjoin.Item</class>
+        <class>study.ywork.jpa.model.fetching.eagerjoin.User</class>
+        <class>study.ywork.jpa.model.fetching.eagerjoin.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="fetchingNPlusOneSelects">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.fetching.nplusoneselects.Item</class>
+        <class>study.ywork.jpa.model.fetching.nplusoneselects.User</class>
+        <class>study.ywork.jpa.model.fetching.nplusoneselects.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="fetchingEagerSelect">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.fetching.eagerselect.Item</class>
+        <class>study.ywork.jpa.model.fetching.eagerselect.User</class>
+        <class>study.ywork.jpa.model.fetching.eagerselect.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="fetchingFetchLoadGraph">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.fetching.fetchloadgraph.Item</class>
+        <class>study.ywork.jpa.model.fetching.fetchloadgraph.User</class>
+        <class>study.ywork.jpa.model.fetching.fetchloadgraph.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="fetchingProxy">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.fetching.proxy.Category</class>
+        <class>study.ywork.jpa.model.fetching.proxy.Item</class>
+        <class>study.ywork.jpa.model.fetching.proxy.Bid</class>
+        <class>study.ywork.jpa.model.fetching.proxy.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="fetchingProfile">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.fetching.profile.Item</class>
+        <class>study.ywork.jpa.model.fetching.profile.User</class>
+        <class>study.ywork.jpa.model.fetching.profile.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="fetchingReadOnly">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.fetching.readonly.Item</class>
+        <class>study.ywork.jpa.model.fetching.readonly.User</class>
+        <class>study.ywork.jpa.model.fetching.readonly.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="fetchingSubselect">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.fetching.subselect.Item</class>
+        <class>study.ywork.jpa.model.fetching.subselect.User</class>
+        <class>study.ywork.jpa.model.fetching.subselect.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="filteringCallback">
+        <jta-data-source>myDS</jta-data-source>
+        <mapping-file>filtering/EventListeners.xml</mapping-file>
+        <class>study.ywork.jpa.model.filtering.callback.Item</class>
+        <class>study.ywork.jpa.model.filtering.callback.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="filteringCascade">
+        <jta-data-source>myDS</jta-data-source>
+        <mapping-file>filtering/DefaultCascadePersist.xml</mapping-file>
+        <class>study.ywork.jpa.model.filtering.cascade.Item</class>
+        <class>study.ywork.jpa.model.filtering.cascade.Bid</class>
+        <class>study.ywork.jpa.model.filtering.cascade.User</class>
+        <class>study.ywork.jpa.model.filtering.cascade.BillingDetails</class>
+        <class>study.ywork.jpa.model.filtering.cascade.CreditCard</class>
+        <class>study.ywork.jpa.model.filtering.cascade.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="filteringDynamic">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.filtering.dynamic.User</class>
+        <class>study.ywork.jpa.model.filtering.dynamic.Item</class>
+        <class>study.ywork.jpa.model.filtering.dynamic.Category</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="filteringEnvers">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.filtering.envers.Item</class>
+        <class>study.ywork.jpa.model.filtering.envers.User</class>
+        <class>study.ywork.jpa.model.filtering.envers.Bid</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="bulkBatch">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.bulkbatch.Item</class>
+        <class>study.ywork.jpa.model.bulkbatch.User</class>
+        <class>study.ywork.jpa.model.bulkbatch.Bid</class>
+        <class>study.ywork.jpa.model.bulkbatch.BillingDetails</class>
+        <class>study.ywork.jpa.model.bulkbatch.CreditCard</class>
+        <class>study.ywork.jpa.model.bulkbatch.BankAccount</class>
+        <class>study.ywork.jpa.model.bulkbatch.StolenCreditCard</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.jdbc.batch_size" value="100"/>
+            <property name="hibernate.jdbc.batch_versioned_data" value="true"/>
+            <property name="hibernate.order_inserts" value="true"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="cache">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.cache.Item</class>
+        <class>study.ywork.jpa.model.cache.Bid</class>
+        <class>study.ywork.jpa.model.cache.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+        <properties>
+            <property name="hibernate.cache.use_second_level_cache"
+                      value="true"/>
+            <property name="hibernate.cache.use_query_cache"
+                      value="true"/>
+            <property name="hibernate.cache.region.factory_class"
+                      value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>
+            <property name="net.sf.ehcache.configurationResourceName"
+                      value="/cache/ehcache.xml"/>
+            <property name="hibernate.cache.use_structured_entries"
+                      value="false"/>
+            <property name="hibernate.generate_statistics"
+                      value="true"/>
+        </properties>
+    </persistence-unit>
+
+    <persistence-unit name="conversation">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.conversation.User</class>
+        <class>study.ywork.jpa.model.conversation.Item</class>
+        <class>study.ywork.jpa.model.conversation.Image</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="CRUDProcedures">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.customsql.procedures.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="customSQL">
+        <jta-data-source>myDS</jta-data-source>
+        <class>study.ywork.jpa.model.customsql.Category</class>
+        <class>study.ywork.jpa.model.customsql.Bid</class>
+        <class>study.ywork.jpa.model.customsql.Item</class>
+        <class>study.ywork.jpa.model.customsql.User</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    </persistence-unit>
+
+    <persistence-unit name="querying">
+        <jta-data-source>myDS</jta-data-source>
+        <mapping-file>querying/ExternalizedQueries.xml</mapping-file>
+        <mapping-file>querying/Selection.xml</mapping-file>
+        <mapping-file>querying/Restriction.xml</mapping-file>
+        <mapping-file>querying/Projection.xml</mapping-file>
+        <mapping-file>querying/Joins.xml</mapping-file>
+        <mapping-file>querying/Grouping.xml</mapping-file>
+        <mapping-file>querying/Subselects.xml</mapping-file>
+        <mapping-file>querying/NativeQueries.xml</mapping-file>
+        <class>study.ywork.jpa.model.querying.Category</class>
+        <class>study.ywork.jpa.model.querying.Item</class>
+        <class>study.ywork.jpa.model.querying.Bid</class>
+        <class>study.ywork.jpa.model.querying.Image</class>
+        <class>study.ywork.jpa.model.querying.User</class>
+        <class>study.ywork.jpa.model.querying.Address</class>
+        <class>study.ywork.jpa.model.querying.LogRecord</class>
+        <class>study.ywork.jpa.model.inheritance.tableperclass.BillingDetails</class>
+        <class>study.ywork.jpa.model.inheritance.tableperclass.CreditCard</class>
+        <class>study.ywork.jpa.model.inheritance.tableperclass.BankAccount</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="hibernate.order_by.default_null_ordering" value="first"/>
+        </properties>
+    </persistence-unit>
+</persistence>
