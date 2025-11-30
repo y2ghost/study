@@ -1,0 +1,10 @@
+[versions]
+bootstrap = "5.3.8"
+
+[libraries]
+webjars-bootstrap = { module = "org.webjars:bootstrap", version.ref = "bootstrap" }
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version = "3.4.12" }
+spring-dependency = { id = "io.spring.dependency-management", version = "1.1.7" }
+
