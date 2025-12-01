@@ -46,6 +46,7 @@ public class Card {
         this.id = builder.id;
         this.comment = builder.comment;
         this.cardType = builder.cardType;
+        this.retroBoard = builder.retroBoard;
     }
 
     public UUID getId() {

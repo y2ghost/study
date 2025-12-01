@@ -13,7 +13,7 @@ import static study.ywork.users.amqp.UserRabbitConfiguration.USERS_REMOVED;
 @Component
 public class UserLogs {
     private final Logger log = LoggerFactory.getLogger(UserLogs.class);
-    private RabbitTemplate rabbitTemplate;
+    private final RabbitTemplate rabbitTemplate;
 
     public UserLogs(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
@@ -21,27 +21,27 @@ public class UserLogs {
 
     @Async
     @EventListener
-    void userActiveStatusEventHandler(UserActivatedEvent event) {
+    public void userActiveStatusEventHandler(UserActivatedEvent event) {
         log.info("User {} active status: {}", event.getEmail(), event.isActive());
     }
 
     @Async
     @EventListener
-    void userDeletedEventHandler(UserRemovedEvent event) {
+    public void userDeletedEventHandler(UserRemovedEvent event) {
         log.info("User {} DELETED at {}", event.getEmail(), event.getRemoved());
     }
 
 
     @Async
     @EventListener
-    void userActiveStatusEventMQHandler(UserActivatedEvent event) {
+    public void userActiveStatusEventMQHandler(UserActivatedEvent event) {
         this.rabbitTemplate.convertAndSend(USERS_ACTIVATED, event);
         log.info("User {} active status: {}", event.getEmail(), event.isActive());
     }
 
     @Async
     @EventListener
-    void userDeletedEventMQHandler(UserRemovedEvent event) {
+    public void userDeletedEventMQHandler(UserRemovedEvent event) {
         this.rabbitTemplate.convertAndSend(USERS_REMOVED, event);
         log.info("User {} DELETED at {}", event.getEmail(), event.getRemoved());
     }
