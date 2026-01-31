@@ -1,0 +1,4 @@
+CFLAGS := -Wall -Werror -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast -g -DDEBUG -I$(ROOT)/include
+LIBNAME := libthreads.a
+LDFLAGS := $(ROOT)/lib/$(LIBNAME) -lpthread -lrt
+SOURCES := $(shell echo *.c)

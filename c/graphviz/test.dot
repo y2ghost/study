@@ -1,0 +1,5 @@
+digraph G {
+    a [shape=tab];
+    b [label=""; shape=underline; width=100];
+    a -> b
+}

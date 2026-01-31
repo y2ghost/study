@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: users
+  datasource:
+    generate-unique-name: false
+    name: yy
+    url: jdbc:postgresql://localhost:5432/yy
+    username: yy
+    password: yy123456
+  sql:
+    init:
+      mode: always
+      platform: postgresql
+  jpa:
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create # 为了测试方便
+    properties:
+      hibernate:
+        format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+      file-size-threshold: 0
+
+users:
+  service:
+    host: 127.0.0.1
+    port: 8080
+    username: admin
+    password: admin
+
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core:
+            JdbcTemplate: DEBUG

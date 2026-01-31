@@ -1,0 +1,6 @@
+rocketmq:
+  name-server: localhost:9876
+  producer:
+    group: yy_producer_group1
+  consumer:
+    group: yy_consumer_group1

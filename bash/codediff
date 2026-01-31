@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+svn diff --diff-cmd=svndiff $*
+exit 0

@@ -1,0 +1,3 @@
+CFLAGS := -Wall -Werror -g -Wno-int-to-pointer-cast -Wno-pointer-to-int-cast
+LDFLAGS := 
+SOURCES := $(shell echo *.c)

@@ -1,0 +1,33 @@
+plugins {
+    id "java"
+    id "application"
+}
+
+repositories {
+    maven { url "https://maven.aliyun.com/repository/public/" }
+}
+
+dependencies {
+    // 8.x以后不再维护
+    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.17.13'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-client:7.17.13'
+    // 官方建议
+    implementation 'co.elastic.clients:elasticsearch-java:7.17.13'
+    testImplementation "org.testng:testng:7.7.1"
+}
+
+application {
+    mainClass = "study.ywork.esClient.App"
+}
+
+tasks.named("test") {
+    useTestNG()
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+group = "study.ywork"
+version = "1.1.1"
+

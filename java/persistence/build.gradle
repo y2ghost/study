@@ -1,0 +1,59 @@
+plugins {
+    id "java"
+    id "eclipse"
+}
+
+group = "study.ywork"
+version = "1.1.1"
+description = "JPA学习项目"
+
+eclipse {
+    sourceSets {
+        main {
+            java {
+                srcDirs += ["build/generated/sources/annotationProcessor/java/main"]
+            }
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    maven {
+        url = "https://maven.aliyun.com/repository/public/"
+    }
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation libs.hibernate.entitymanager
+    implementation libs.hibernate.validator
+    implementation libs.hibernate.envers
+    implementation libs.hibernate.ehcache
+    implementation libs.el.api
+    implementation libs.glassfish.el
+    implementation libs.db.h2
+    implementation libs.btm
+    implementation libs.mariadb
+    implementation libs.postgresql
+    annotationProcessor libs.hibernate.jpamodelgen
+    testImplementation libs.testng
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.named("test") {
+    useTestNG() {
+        preserveOrder = true
+        suites "src/test/resources/testng.xml"
+    }
+}
+

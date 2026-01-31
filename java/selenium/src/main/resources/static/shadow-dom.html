@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <title>YY学习Selenium</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="YY" />
+    <link rel="icon" type="image/png" href="img/yy-icon.png" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </head>
+
+  <body class="d-flex flex-column h-100">
+    <main class="flex-shrink-2">
+      <div class="container">
+        <div class="row py-2">
+          <div class="col col-10">
+            <h1 class="display-4">YY学习Selenium</h1>
+            <h5>练习站点</h5>
+          </div>
+          <div class="col col-2">
+            <a href="https://github.com/y2ghost"
+              ><img class="img-fluid" src="img/yy-icon.png"
+            /></a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-12">
+            <hr class="my-4" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <h1 class="display-6">Shadow DOM</h1>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 py-2" id="content"></div>
+        </div>
+      </div>
+    </main>
+    <footer class="footer mt-auto py-3 bg-light">
+      <div class="container">
+        <span class="text-muted"
+          >Copyright &copy; 2023-2024
+          <a href="https://github.com/y2ghost">YY</a></span
+        >
+      </div>
+    </footer>
+    <script>
+      const content = document.getElementById("content");
+      const shadowRoot = content.attachShadow({ mode: "open" });
+      const p = document.createElement("p");
+      p.textContent = "测试Shadow DOM";
+      shadowRoot.appendChild(p);
+    </script>
+  </body>
+</html>

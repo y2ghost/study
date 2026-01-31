@@ -1,0 +1,106 @@
+# term查询，类似SQL的等值查询
+POST /mybooks/_search
+{"query":{"term":{"uuid":"33333"}}}
+
+# term过滤查询，不必计算分数
+POST /mybooks/_search
+{"query":{"bool":{"filter":{"term":{"uuid":"33333"}}}}}
+
+# term多值查询，类似SQL IN查询
+POST /mybooks/_search
+{"query":{"terms":{"uuid":["33333","32222"]}}}
+
+# terms set查询
+PUT /my-items
+{
+  "mappings": {
+    "properties": {
+      "name": {"type": "keyword"},
+      "labels": {"type": "keyword"},
+      "match_number": {"type": "integer"}
+    }
+  }
+}
+
+POST /_bulk
+{"index": {"_index":"my-items", "_id":1}}
+{"name":"1111", "labels":["one"], "match_number": 2}
+{"index": {"_index":"my-items", "_id":2}}
+{"name":"2222", "labels":["one", "two"], "match_number": 2}
+{"index": {"_index":"my-items", "_id":3}}
+{"name":"3333", "labels":["one", "two", "three"], "match_number": 3}
+{"index": {"_index":"my-items", "_id":4}}
+{"name":"1111", "labels":["one", "two", "four"], "match_number": 3}
+
+GET /my-items/_search
+{
+  "query": {
+    "terms_set": {
+      "labels": {
+        "terms": ["one", "two", "three"],
+        "minimum_should_match_field": "match_number"
+      }
+    }
+  }
+}
+
+# prefix查询
+POST /mybooks/_search
+{"query":{"prefix":{"uuid":"222"}}}
+
+# wildcard查询
+POST /mybooks/_search
+{"query":{"wildcard":{"uuid":"22?2*"}}}
+
+# regex正则查询
+POST /mybooks/_search
+{"query":{"regexp":{"description":{"value":"j.*","flags":"INTERSECTION|COMPLEMENT|EMPTY"}}}}
+
+# span查询
+POST /mybooks/_search
+{"query":{"span_first":{"match":{"span_term":{"description":"joe"}},"end":5}}}
+
+POST /mybooks/_search
+{"query":{"span_or":{"clauses":[{"span_term":{"description":"nice"}},{"span_term":{"description":"cool"}},{"span_term":{"description":"wonderful"}}]}}}
+
+POST /mybooks/_search
+{"query":{"span_multi":{"match":{"prefix":{"description":{"value":"jo"}}}}}}
+
+POST /mybooks/_search
+{"query":{"span_near":{"clauses":[{"span_term":{"description":"nice"}},{"span_term":{"description":"joe"}},{"span_term":{"description":"guy"}}],"slop":3,"in_order":false}}}
+
+POST /mybooks/_search
+{"query":{"span_not":{"include":{"span_term":{"description":"nice"}},"exclude":{"span_near":{"clauses":[{"span_term":{"description":"not"}},{"span_term":{"description":"nice"}}],"slop":1,"in_order":true}}}}}
+
+POST /mybooks/_search
+{"query":{"span_containing":{"little":{"span_term":{"description":"nice"}},"big":{"span_near":{"clauses":[{"span_term":{"description":"not"}},{"span_term":{"description":"guy"}}],"slop":5,"in_order":true}}}}}
+
+POST /mybooks/_search
+{"query":{"span_within":{"little":{"span_term":{"description":"nice"}},"big":{"span_near":{"clauses":[{"span_term":{"description":"not"}},{"span_term":{"description":"guy"}}],"slop":5,"in_order":true}}}}}
+
+# match查询
+POST /mybooks/_search
+{"query":{"match":{"description":{"query":"nice guy","operator":"and"}}}}
+
+POST /mybooks/_search
+{"query":{"match_phrase_prefix":{"description":"nice gu"}}}
+
+POST /mybooks/_search
+{"query":{"multi_match":{"fields":["description","name"],"query":"Bill","operator":"and"}}}
+
+# query-string查询
+POST /mybooks/_search
+{"query":{"query_string":{"query":"\"nice guy\" -description:not price:{ * TO 5 } ","fields":["description^5"],"default_operator":"and"}}}
+
+# simple-query-string查询
+POST /mybooks/_search
+{"query":{"simple_query_string":{"query":"\"nice guy\" -not","fields":["description^5","_all"],"default_operator":"and"}}}
+
+# range查询
+POST /mybooks/_search
+{"query":{"range":{"position":{"from":3,"to":4,"include_lower":true,"include_upper":false}}}}
+
+# ids查询
+POST /mybooks/_search
+{"query":{"ids":{"values":["1","2","3"]}}}
+

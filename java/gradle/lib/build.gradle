@@ -1,0 +1,18 @@
+plugins {
+    id "java"
+}
+
+tasks.register("task3") {
+    println("配置阶段注册任务task3")
+}
+
+tasks.named("task3") {
+    println("NAMED TASK3: 配置阶段执行")
+    doFirst {
+        println("NAMED TASK3 - doFirst: 运行阶段执行doFirst")
+    }
+    doLast {
+        println("NAMED TASK3 - doLast: 运行阶段执行doLast")
+    }
+}
+

@@ -1,0 +1,22 @@
+<entity-mappings
+        version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd">
+    <persistence-unit-metadata>
+        <persistence-unit-defaults>
+            <entity-listeners>
+                <entity-listener
+                        class="study.ywork.jpa.model.filtering.callback.PersistEntityListener"/>
+            </entity-listeners>
+        </persistence-unit-defaults>
+    </persistence-unit-metadata>
+
+    <entity class="study.ywork.jpa.model.filtering.callback.Item">
+        <exclude-default-listeners/>
+        <entity-listeners>
+            <entity-listener class="study.ywork.jpa.model.filtering.callback.PersistEntityListener"/>
+        </entity-listeners>
+    </entity>
+</entity-mappings>

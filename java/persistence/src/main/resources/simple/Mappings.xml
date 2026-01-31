@@ -1,0 +1,32 @@
+<entity-mappings
+        version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd">
+    <!-- 全局配置 -->
+    <persistence-unit-metadata>
+        <!-- 忽略所有的注解和映射配置 -->
+        <xml-mapping-metadata-complete/>
+        <!-- 默认配置 -->
+        <persistence-unit-defaults>
+            <!-- 转义所有的列名表名 -->
+            <delimited-identifiers/>
+        </persistence-unit-defaults>
+    </persistence-unit-metadata>
+
+    <entity class="study.ywork.jpa.model.simple.Item" access="FIELD">
+        <attributes>
+            <id name="id">
+                <generated-value strategy="AUTO"/>
+            </id>
+            <basic name="name"/>
+            <basic name="auctionEnd">
+                <temporal>TIMESTAMP</temporal>
+            </basic>
+            <transient name="bids"/>
+            <transient name="category"/>
+        </attributes>
+    </entity>
+</entity-mappings>
+

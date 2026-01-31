@@ -1,0 +1,22 @@
+plugins {
+    id "groovy"
+    id "application"
+}
+
+repositories {
+    maven {
+        url "https://maven.aliyun.com/repository/public/"
+    }
+}
+
+dependencies {
+    implementation "org.codehaus.groovy:groovy-all:3.0.7"
+}
+
+application {
+    mainClassName = "ywork.App"
+}
+
+group = "ywork"
+version = "1.0"
+

@@ -1,0 +1,2 @@
+yy test resource loader
+

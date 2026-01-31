@@ -1,0 +1,48 @@
+Option Explicit
+
+Sub Example()
+Dim a As Integer
+a = 2
+Debug.Print a
+
+Dim b As Long
+b = a + 2
+Debug.Print b
+
+Dim c As String
+c = "你好VBA"
+Debug.Print c
+
+End Sub
+
+Sub vars()
+Dim Str As String, IntOne, IntTwo As Integer, Lng As Long
+Debug.Print TypeName(Str) 'Output: String
+Debug.Print TypeName(IntOne) 'Output: Empty
+Debug.Print TypeName(IntTwo) 'Output: Integer
+Debug.Print TypeName(Lng) 'Output: Long
+
+Dim thisString$ 'String
+Dim thisInteger% 'Integer
+Dim thisLong& 'Long
+Dim thisSingle! 'Single
+Dim thisDouble# 'Double
+Dim thisCurrency@ 'Currency
+
+Debug.Print TypeName(thisString)
+Debug.Print TypeName(thisInteger)
+Debug.Print TypeName(thisLong)
+Debug.Print TypeName(thisSingle)
+Debug.Print TypeName(thisDouble)
+Debug.Print TypeName(thisCurrency)
+
+End Sub
+
+Sub exportToPPT()
+' 引用Powerpoint示例
+Dim ppApp As PowerPoint.Application
+Dim ppPres As PowerPoint.Presentation
+Dim ppSlide As PowerPoint.Slide
+
+End Sub
+

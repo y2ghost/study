@@ -1,0 +1,41 @@
+cmake_minimum_required(VERSION 3.20.0)
+
+set(VAR_VARIABLE Variable)
+set(VAR_TRUE TRUE)
+set(VAR_FALSE FALSE)
+
+message("测试 VAR_VARIABLE: ${VAR_VARIABLE}")
+if (VAR_VARIABLE)
+  message(TRUE)
+else()
+  message(FALSE)
+endif()
+
+message("测试 VAR_TRUE: ${VAR_TRUE}")
+if (VAR_TRUE)
+  message(TRUE)
+else()
+  message(FALSE)
+endif()
+
+message("测试 VAR_FALSE: ${VAR_FALSE}")
+if (VAR_FALSE)
+  message(TRUE)
+else()
+  message(FALSE)
+endif()
+
+message("测试 non empty string: ")
+if ("non empty string")
+  message(TRUE)
+else()
+  message(FALSE)
+endif()
+
+message("测试 TRUE")
+if ("TRUE")
+  message(TRUE)
+else()
+  message(FALSE)
+endif()
+

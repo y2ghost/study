@@ -1,0 +1,42 @@
+@startuml
+actor actor
+agent agent
+artifact artifact
+boundary boundary
+card card
+cloud cloud
+component component
+control control
+database database
+entity entity
+file file
+folder folder
+frame frame
+interface interface
+node node
+package package
+queue queue
+stack stack
+rectangle rectangle
+storage storage
+usecase usecase
+
+title Bracketed line thickness
+node foo
+foo --> bar : ￿
+foo -[thickness=1]-> bar1 : [1]
+foo -[thickness=2]-> bar2 : [2]
+foo -[thickness=4]-> bar3 : [4]
+foo -[thickness=8]-> bar4 : [8]
+foo -[thickness=16]-> bar5 : [16]
+
+title Bracketed line color
+node foo
+foo --> bar
+foo -[#red]-> bar1 : [#red]
+foo -[#green]-> bar2 : [#green]
+foo -[#blue]-> bar3 : [#blue]
+foo -[#blue;#yellow;#green]-> bar4
+
+@enduml
+

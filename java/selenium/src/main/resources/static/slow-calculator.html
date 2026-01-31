@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <title>YY学习Selenium</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="YY" />
+    <link rel="icon" type="image/png" href="img/yy-icon.png" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </head>
+
+  <body class="d-flex flex-column h-100">
+    <main class="flex-shrink-2">
+      <div class="container">
+        <div class="row py-2">
+          <div class="col col-10">
+            <h1 class="display-4">YY学习Selenium</h1>
+            <h5>练习站点</h5>
+          </div>
+          <div class="col col-2">
+            <a href="https://github.com/y2ghost"
+              ><img class="img-fluid" src="img/yy-icon.png"
+            /></a>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col col-12">
+            <hr class="my-4" />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <h1 class="display-6">缓慢的计算器</h1>
+            <p class="lead">
+              计算器等待
+              <input type="text" id="delay" style="width: 32px" value="5" />
+              秒后开始进行计算
+              <span
+                class="spinner-border"
+                role="status"
+                id="spinner"
+                style="display: none"
+              ></span>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12 py-10">
+            <div id="calculator">
+              <div class="top">
+                <span class="clear btn btn-outline-danger">C</span>
+                <div class="screen"></div>
+              </div>
+              <div class="keys">
+                <span class="btn btn-outline-primary">7</span>
+                <span class="btn btn-outline-primary">8</span>
+                <span class="btn btn-outline-primary">9</span>
+                <span class="operator btn btn-outline-success">+</span>
+                <span class="btn btn-outline-primary">4</span>
+                <span class="btn btn-outline-primary">5</span>
+                <span class="btn btn-outline-primary">6</span>
+                <span class="operator btn btn-outline-success">-</span>
+                <span class="btn btn-outline-primary">1</span>
+                <span class="btn btn-outline-primary">2</span>
+                <span class="btn btn-outline-primary">3</span>
+                <span class="operator btn btn-outline-success">÷</span>
+                <span class="btn btn-outline-primary">0</span>
+                <span class="btn btn-outline-primary">.</span>
+                <span class="btn btn-outline-warning">=</span>
+                <span class="operator btn btn-outline-success">x</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="footer mt-auto py-3 bg-light">
+      <div class="container">
+        <span class="text-muted"
+          >Copyright &copy; 2023-2024
+          <a href="https://github.com/y2ghost">YY</a></span
+        >
+      </div>
+    </footer>
+
+    <link rel="stylesheet" href="css/calculator.css" />
+    <script type="text/javascript" src="js/slow-calculator.js"></script>
+  </body>
+</html>

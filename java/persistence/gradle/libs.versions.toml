@@ -1,0 +1,24 @@
+[versions]
+hibernate = "5.6.15.Final"
+h2 = "2.3.232"
+validator = "6.0.18.Final"
+el = "3.0.1-b06"
+btm = "2.1.4"
+mariadb = "3.3.3"
+postgresql = "42.6.2"
+testng = "7.10.2"
+
+[libraries]
+hibernate-entitymanager = { module = "org.hibernate:hibernate-entitymanager", version.ref = "hibernate" }
+hibernate-jpamodelgen = { module = "org.hibernate:hibernate-jpamodelgen", version.ref = "hibernate" }
+hibernate-validator = { module = "org.hibernate:hibernate-validator", version.ref = "validator" }
+hibernate-envers = { module = "org.hibernate:hibernate-envers", version.ref = "hibernate" }
+hibernate-ehcache = { module = "org.hibernate:hibernate-ehcache", version.ref = "hibernate" }
+el-api = { module = "javax.el:javax.el-api", version.ref = "el" }
+db-h2 = { module = "com.h2database:h2", version.ref = "h2" }
+btm = { module = "org.codehaus.btm:btm", version.ref = "btm" }
+mariadb = { module = "org.mariadb.jdbc:mariadb-java-client", version.ref = "mariadb" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+testng = { module = "org.testng:testng", version.ref = "testng" }
+glassfish-el = { module = "org.glassfish:javax.el", version.ref = "el" }
+

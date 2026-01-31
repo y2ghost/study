@@ -1,0 +1,827 @@
+## 复合查询多种示例
+# bool查询TV示例
+GET products/_search
+{"query":{"bool":{"must":[{"match":{"product":"TV"}}]}}}
+
+# bool查询特定价格区间的TV示例
+GET products/_search
+{"query":{"bool":{"must":[{"match":{"product":"TV"}},{"range":{"price":{"gte":700,"lte":800}}}]}}}
+
+# bool查询特定价格区间、特定颜色的TV示例
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "range": {
+            "price": {
+              "gte": 1000,
+              "lte": 2000
+            }
+          }
+        },
+        {
+          "terms": {
+            "colour": [
+              "silver",
+              "black"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+# bool查询特定分辨率、特定颜色的TV示例
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "term": {
+            "resolution": "4k"
+          }
+        },
+        {
+          "terms": {
+            "colour": [
+              "silver",
+              "black"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
+
+# 过滤特定品牌查询示例
+GET products/_search
+{"query":{"bool":{"must_not":[{"terms":{"brand.keyword":["Samsung","Philips"]}}]}}}
+
+# 过滤特定品牌的TV查询示例
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "terms": {
+            "brand.keyword": [
+              "Philips",
+              "Samsung"
+            ]
+          }
+        }
+      ],
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# 过滤特定品牌的TV复杂点的查询示例
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "must_not": [
+        {
+          "terms": {
+            "brand.keyword": [
+              "Philips",
+              "Samsung"
+            ]
+          }
+        },
+        {
+          "range": {
+            "user_ratings": {
+              "lte": 4
+            }
+          }
+        },
+        {
+          "match": {
+            "colour": "black"
+          }
+        }
+      ],
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "term": {
+            "resolution": {
+              "value": "4k"
+            }
+          }
+        },
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 700
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# bool-should查询示例
+GET products/_search
+{
+  "_source": [
+    "product",
+    "brand",
+    "overview",
+    "price"
+  ],
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        },
+        {
+          "match_phrase_prefix": {
+            "overview": "4k ultra hd"
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET products/_search
+{
+  "_source": [
+    "product",
+    "brand"
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "match": {
+            "brand": "LG"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# bool-should提交评分查询示例
+GET products/_search
+{
+  "_source": [
+    "product",
+    "brand",
+    "overview",
+    "price"
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "match": {
+            "brand": "LG"
+          }
+        }
+      ],
+      "should": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        },
+        {
+          "match_phrase_prefix": {
+            "overview": "4k ultra hd"
+          }
+        }
+      ]
+    }
+  }
+}
+
+# boos-shuold至少满足1个匹配查询示例
+GET products/_search
+{
+  "_source": [
+    "product",
+    "brand",
+    "overview",
+    "price",
+    "colour"
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "match": {
+            "brand": "LG"
+          }
+        }
+      ],
+      "should": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        },
+        {
+          "match": {
+            "colour": "silver"
+          }
+        },
+        {
+          "match_phrase_prefix": {
+            "overview": "4kk"
+          }
+        }
+      ],
+      "minimum_should_match": 1
+    }
+  }
+}
+
+# bool-filter查询示例
+GET products/_search
+{
+  "_source": [
+    "brand",
+    "product",
+    "colour"
+  ],
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "term": {
+            "product.keyword": "TV"
+          }
+        },
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET products/_search
+{
+  "_source": [
+    "brand",
+    "product",
+    "colour",
+    "price"
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "brand": "LG"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# bool所有查询方法(must,must_not,should)示例
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "brand": "LG"
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "term": {
+            "colour": "silver"
+          }
+        }
+      ],
+      "should": [
+        {
+          "match": {
+            "energy_rating": "A++"
+          }
+        },
+        {
+          "term": {
+            "type": "Fridge Freezer"
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# 查询指定名称，以便查看是否命中
+GET products/_search
+{
+  "_source": [
+    "product",
+    "brand"
+  ],
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "brand": {
+              "query": "LG",
+              "_name": "must_match_brand_query"
+            }
+          }
+        }
+      ],
+      "must_not": [
+        {
+          "match": {
+            "colour.keyword": {
+              "query": "black",
+              "_name": "must_not_colour_query"
+            }
+          }
+        }
+      ],
+      "should": [
+        {
+          "term": {
+            "type.keyword": {
+              "value": "Frost Free Fridge Freezer",
+              "_name": "should_term_type_query"
+            }
+          }
+        },
+        {
+          "match": {
+            "energy_rating": {
+              "query": "A++",
+              "_name": "should_match_energy_rating_query"
+            }
+          }
+        }
+      ],
+      "filter": [
+        {
+          "range": {
+            "price": {
+              "gte": 500,
+              "lte": 1000,
+              "_name": "filter_range_price_query"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# constant-score查询示例
+GET products/_search
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "range": {
+          "price": {
+            "gte": 1000,
+            "lte": 2000
+          }
+        }
+      },
+      "boost": 5
+    }
+  }
+}
+
+GET products/_search
+{"query":{"bool":{"filter":[{"range":{"user_ratings":{"gte":4,"lte":5}}}]}}}
+
+GET products/_search
+{"query":{"constant_score":{"filter":{"range":{"user_ratings":{"gte":4,"lte":5}}},"boost":5}}}
+
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        },
+        {
+          "constant_score": {
+            "filter": {
+              "term": {
+                "colour": "black"
+              }
+            },
+            "boost": 3.5
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET products/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match": {
+            "product": "TV"
+          }
+        }
+      ],
+      "should": [
+        {
+          "term": {
+            "brand.keyword": {
+              "value": "Samsung"
+            }
+          }
+        },
+        {
+          "constant_score": {
+            "filter": {
+              "range": {
+                "user_ratings": {
+                  "gte": 4,
+                  "lte": 5
+                }
+              }
+            },
+            "boost": 2.5
+          }
+        }
+      ],
+      "minimum_should_match": 1
+    }
+  }
+}
+
+# boosting查询示例
+GET products/_search
+{
+  "size": 40,
+  "_source": [
+    "product",
+    "price",
+    "colour"
+  ],
+  "query": {
+    "boosting": {
+      "positive": {
+        "term": {
+          "product": "tv"
+        }
+      },
+      "negative": {
+        "range": {
+          "price": {
+            "gte": 2500
+          }
+        }
+      },
+      "negative_boost": 0.5
+    }
+  }
+}
+
+GET products/_search
+{
+  "size": 40,
+  "_source": [
+    "product",
+    "price",
+    "colour",
+    "brand"
+  ],
+  "query": {
+    "boosting": {
+      "positive": {
+        "bool": {
+          "must": [
+            {
+              "match": {
+                "product": "TV"
+              }
+            }
+          ]
+        }
+      },
+      "negative": {
+        "bool": {
+          "must": [
+            {
+              "match": {
+                "brand": "Sony"
+              }
+            }
+          ]
+        }
+      },
+      "negative_boost": 0.5
+    }
+  }
+}
+
+# multi_match背后使用了dis_max查询
+GET products/_search
+{
+  "query": {
+    "multi_match": {
+      "query": "smart",
+      "fields": [
+        "type",
+        "overview"
+      ]
+    }
+  },
+  "highlight": {
+    "fields": {
+      "type": {},
+      "overview": {}
+    }
+  }
+}
+
+# dis_max查询示例
+GET products/_search
+{
+  "_source": [
+    "type",
+    "overview"
+  ],
+  "query": {
+    "dis_max": {
+      "queries": [
+        {
+          "match": {
+            "type": "smart tv"
+          }
+        },
+        {
+          "match": {
+            "overview": "smart tv"
+          }
+        },
+        {
+          "match": {
+            "product": "smart tv"
+          }
+        }
+      ],
+      "tie_breaker": 0.5
+    }
+  }
+}
+
+# function_score查询示例
+GET products/_search
+{"query":{"function_score":{"query":{"term":{"product":"tv"}}}}}
+
+# 随机分数示例
+GET products/_search
+{"query":{"function_score":{"query":{"term":{"product":"tv"}},"random_score":{}}}}
+
+GET products/_search
+{"query":{"function_score":{"query":{"term":{"product":"tv"}},"random_score":{},"boost":3}}}
+
+GET products/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "term": {
+          "product": "tv"
+        }
+      },
+      "random_score": {
+        "seed": 10,
+        "field": "user_ratings"
+      }
+    }
+  }
+}
+
+# 使用脚本定义分数
+GET products/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "term": {
+          "product": "tv"
+        }
+      },
+      "script_score": {
+        "script": {
+          "source": "_score * doc['user_ratings'].value + params['goodluck_factor']",
+          "params": {
+            "goodluck_factor": 10
+          }
+        }
+      }
+    }
+  }
+}
+
+# 使用字段定义分数
+GET products/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "term": {
+          "product": "tv"
+        }
+      },
+      "field_value_factor": {
+        "field": "user_ratings",
+        "factor": 2,
+        "modifier": "square"
+      }
+    }
+  }
+}
+
+# 多个函数定义分数示例
+GET products/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "term": {
+          "product": "tv"
+        }
+      },
+      "functions": [
+        {
+          "filter": {
+            "term": {
+              "brand": "LG"
+            }
+          },
+          "weight": 3
+        },
+        {
+          "filter": {
+            "range": {
+              "user_ratings": {
+                "gte": 4.5,
+                "lte": 5
+              }
+            }
+          },
+          "field_value_factor": {
+            "field": "user_ratings",
+            "factor": 1.2,
+            "modifier": "square"
+          }
+        }
+      ],
+      "score_mode": "avg",
+      "boost_mode": "sum"
+    }
+  }
+}
+
+GET products/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "term": {
+          "product": "tv"
+        }
+      },
+      "functions": [
+        {
+          "filter": {
+            "match": {
+              "brand": "samsung"
+            }
+          },
+          "random_score": {}
+        },
+        {
+          "filter": {
+            "match_phrase": {
+              "overview": "4K ultra hd"
+            }
+          },
+          "weight": 2
+        },
+        {
+          "filter": {
+            "range": {
+              "user_ratings": {
+                "gte": 4.5,
+                "lte": 5
+              }
+            }
+          },
+          "field_value_factor": {
+            "field": "user_ratings",
+            "factor": 2,
+            "modifier": "square"
+          }
+        }
+      ],
+      "score_mode": "avg",
+      "boost_mode": "multiply"
+    }
+  }
+}
+

@@ -1,0 +1,58 @@
+重要的三个接口
+- 接口线程安全
+- RedissonClient接口用于同步异步的Redis操作
+- RedissonReactiveClient使用Reactive操作模型
+- RedissonRxClient接口使用rxjava3操作模型
+
+RBucket操作示例
+RedissonClient client = Redisson.create(config);
+RBucket<MyObject> bucket = client.getBucket('myObject');
+// 同步方法
+bucket.get();
+// 异步方法
+RFuture<MyObject> result = bucket.getAsync();
+// 自定义操作细节
+RBucket<MyObject> bucket = client.getBucket(PlainOptions.name('myObject')
+    .timeout(Duration.ofSeconds(3))
+    .retryInterval(Duration.ofSeconds(5)));
+// RAtomicLong继承RAtomicLongAsync
+RAtomicLongAsync longObject = client.getAtomicLong("myLong");
+RFuture<Boolean> future = longObject.compareAndSetAsync(1, 401);
+future.whenComplete((res, exception) -> {
+    // 同时处理结果和异常
+});
+// 另一种处理方法
+future.thenAccept(res -> {
+    // 处理结果
+}).exceptionally(exception -> {
+    // 处理异常
+});
+// 如果存在阻塞的方法使用如下模式
+future.whenCompleteAsync((res, exception) -> {
+    // 处理结果和异常
+}, executor);
+// 或者另一种方法
+future.thenAcceptAsync(res -> {
+    // 处理结果
+}, executor).exceptionallyAsync(exception -> {
+    // 处理异常
+}, executor);
+
+使用Reactive模型
+RedissonReactiveClient client = redissonClient.reactive();
+RAtomicLongReactive atomicLong = client.getAtomicLong("myLong");
+Mono<Boolean> cs = longObject.compareAndSet(10, 91);
+Mono<Long> get = longObject.get();
+get.doOnSuccess(res -> {
+   // ...
+}).subscribe();
+
+使用RxJava3模型
+RedissonRxClient client = redissonClient.rxJava();
+RAtomicLongRx atomicLong = client.getAtomicLong("myLong");
+Single<Boolean> cs = longObject.compareAndSet(10, 91);
+Single<Long> get = longObject.get();
+get.doOnSuccess(res -> {
+   // ...
+}).subscribe();
+

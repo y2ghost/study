@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <title>YY学习Selenium</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="YY" />
+    <link rel="icon" type="image/png" href="img/yy-icon.png" />
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/bootstrap.bundle.min.js"></script>
+  </head>
+
+  <body class="d-flex flex-column h-100">
+    <main class="flex-shrink-2">
+      <div class="container">
+        <div class="row">
+          <div class="col-12 py-2" id="content"></div>
+        </div>
+      </div>
+    </main>
+    <script>
+      const stories = "stories.html";
+      $("#content").load(stories);
+    </script>
+  </body>
+</html>

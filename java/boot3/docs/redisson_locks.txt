@@ -1,0 +1,40 @@
+Rlock示例
+// 同步操作
+RLock lock = redisson.getLock("myLock");
+lock.lock();
+lock.lock(10, TimeUnit.SECONDS);
+boolean res = lock.tryLock(100, 10, TimeUnit.SECONDS);
+if (res) {
+   try {
+     ...
+   } finally {
+       lock.unlock();
+   }
+}
+// 异步操作
+RLock lock = redisson.getLock("myLock");
+long threadId = Thread.currentThread().getId();
+RFuture<Void> lockFuture = lock.lockAsync(threadId);
+RFuture<Void> lockFuture = lock.lockAsync(10, TimeUnit.SECONDS, threadId);
+RFuture<Boolean> lockFuture = lock.tryLockAsync(100, 10, TimeUnit.SECONDS, threadId);
+lockFuture.whenComplete((res, exception) -> {
+    // ...
+    lock.unlockAsync(threadId);
+});
+
+CountDownLatch示例
+// 同步示例
+RCountDownLatch latch = redisson.getCountDownLatch("myCountDownLatch");
+latch.trySetCount(1);
+latch.await();
+// 另一个线程
+RCountDownLatch latch = redisson.getCountDownLatch("myCountDownLatch");
+latch.countDown();
+// 异步操作
+RCountDownLatch latch = redisson.getCountDownLatch("myCountDownLatch");
+RFuture<Boolean> setFuture = lock.trySetCountAsync(1);
+RFuture<Void> awaitFuture = latch.awaitAsync();
+// 另一个线程
+RCountDownLatch latch = redisson.getCountDownLatch("myCountDownLatch");
+RFuture<Void> countFuture = latch.countDownAsync();
+

@@ -1,0 +1,53 @@
+plugins {
+    id "java"
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency)
+}
+
+group = "study.ywork"
+version = "1.0.1"
+description = "学习spring boot 3.X"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    maven { url = "https://maven.aliyun.com/repository/public/" }
+}
+
+configurations {
+    implementation.exclude module: "spring-boot-starter-tomcat"
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    implementation libs.redisson
+    implementation libs.webjars.bootstrap
+    implementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "org.springframework.boot:spring-boot-starter-validation"
+    implementation "org.springframework.boot:spring-boot-starter-aop"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
+    implementation "org.springframework.boot:spring-boot-starter-amqp"
+    implementation "org.springframework.boot:spring-boot-starter-undertow"
+    modules {
+        module("org.springframework.boot:spring-boot-starter-tomcat") {
+            replacedBy("org.springframework.boot:spring-boot-starter-undertow",
+                    "使用Undertow替代Tomcat")
+        }
+    }
+    runtimeOnly "org.postgresql:postgresql"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    testImplementation "org.springframework.boot:spring-boot-starter-test"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+tasks.named("test") {
+    useJUnitPlatform()
+}
+

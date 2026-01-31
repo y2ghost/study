@@ -1,0 +1,42 @@
+plugins {
+    id "java"
+    id "application"
+}
+
+repositories {
+    maven {
+        url "https://maven.aliyun.com/repository/public/"
+    }
+}
+
+dependencies {
+    implementation 'jakarta.annotation:jakarta.annotation-api:2.1.1'
+    implementation "org.springframework:spring-context:${spring_version}"
+    testImplementation libs.junit.jupiter
+    testImplementation("org.springframework:spring-test:${spring_version}") {
+        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
+    }
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+application {
+    mainClass = "study.ywork.spring.App"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+group = "study.ywork"
+version = "1.0"
+
