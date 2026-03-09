@@ -1,0 +1,5 @@
+[therock]
+db ansible_host=10.0.10.10
+
+[world:children]
+therock

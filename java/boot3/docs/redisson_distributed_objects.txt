@@ -1,0 +1,215 @@
+任意对象存取(最大512MB)
+//同步处理
+RBucket<AnyObject> bucket = redisson.getBucket("anyObject");
+bucket.set(new AnyObject(1));
+AnyObject obj = bucket.get();
+bucket.trySet(new AnyObject(3));
+bucket.compareAndSet(new AnyObject(4), new AnyObject(5));
+bucket.getAndSet(new AnyObject(6));
+// 异步处理
+RBucket<AnyObject> bucket = redisson.getBucket("anyObject");
+RFuture<Void> future = bucket.setAsync(new AnyObject(1));
+RFuture<AnyObject> objfuture = bucket.getAsync();
+RFuture<Boolean> tsFuture = bucket.trySetAsync(new AnyObject(3));
+RFuture<Boolean> csFuture = bucket.compareAndSetAsync(new AnyObject(4), new AnyObject(5));
+RFuture<AnyObject> gsFuture = bucket.getAndSetAsync(new AnyObject(6));
+// 多个对象同步处理
+RBuckets buckets = redisson.getBuckets();
+Map<String, V> loadedBuckets = buckets.get("myBucket1", "myBucket2", "myBucket3");
+Map<String, Object> map = new HashMap<>();
+map.put("myBucket1", new MyObject());
+map.put("myBucket2", new MyObject());
+buckets.trySet(map);
+buckets.set(map);
+// 多个对象异步处理
+RBuckets buckets = redisson.getBuckets();
+RFuture<Map<String, V>> bucketsFuture = buckets.getAsync("myBucket1", "myBucket2", "myBucket3");
+Map<String, Object> map = new HashMap<>();
+map.put("myBucket1", new MyObject());
+map.put("myBucket2", new MyObject());
+RFuture<Boolean> tsFuture = buckets.trySetAsync(map);
+RFuture<Void> sFuture = buckets.setAsync(map);
+
+监听对象事件类概述
+- 读操作后创建/更新的数据: org.redisson.api.listener.TrackingListener 
+- 数据已经创建或是更新: org.redisson.api.listener.SetObjectListener
+- 对象超时: org.redisson.api.ExpiredObjectListener
+- 对象删除: org.redisson.api.DeletedObjectListener
+
+监听代码示例
+RBucket<String> set = redisson.getBucket("anyObject");
+int listenerId = set.addListener(new SetObjectListener() {
+     @Override
+     public void onSet(String name) {
+        // ...
+     }
+});
+int listenerId = set.addListener(new DeletedObjectListener() {
+     @Override
+     public void onDeleted(String name) {
+        // ...
+     }
+});
+// ...
+set.removeListener(listenerId);
+
+二进制流示例(最大512MB)
+// 同步处理
+RBinaryStream stream = redisson.getBinaryStream("anyStream");
+byte[] content = ...
+stream.set(content);
+stream.getAndSet(content);
+stream.trySet(content);
+stream.compareAndSet(oldContent, content);
+// 异步处理
+RBinaryStream stream = redisson.getBinaryStream("anyStream");
+byte[] content = ...
+RFuture<Void> future = stream.set(content);
+RFuture<byte[]> future = stream.getAndSet(content);
+RFuture<Boolean> future = stream.trySet(content);
+RFuture<Boolean> future = stream.compareAndSet(oldContent, content);
+// 文件IO操作
+RBinaryStream stream = redisson.getBinaryStream("anyStream");
+InputStream is = stream.getInputStream();
+byte[] readBuffer = ...
+is.read(readBuffer);
+OutputStream os = stream.getOuputStream();
+byte[] contentToWrite = ...
+os.write(contentToWrite);
+RBinaryStream stream = redisson.getBinaryStream("anyStream");
+// 可定位的文件IO操作
+SeekableByteChannel sbc = stream.getChannel();
+ByteBuffer readBuffer = ...
+sbc.read(readBuffer);
+sbc.position(0);
+ByteBuffer contentToWrite = ...
+sbc.write(contentToWrite);
+sbc.truncate(234);
+// 可异步的文件IO操作
+RBinaryStream stream = redisson.getBinaryStream("anyStream");
+AsynchronousByteChannel sbc = stream.getAsynchronousChannel();
+ByteBuffer readBuffer = ...
+sbc.read(readBuffer);
+ByteBuffer contentToWrite = ...
+sbc.write(contentToWrite);
+// 监听事件代码示例
+RBinaryStream stream = redisson.getBinaryStream("anyObject");
+int listenerId = set.addListener(new DeletedObjectListener() {
+     @Override
+     public void onDeleted(String name) {
+        // ...
+     }
+});
+// ...
+set.removeListener(listenerId);
+
+GEO对象示例
+// 同步操作
+RGeo<String> geo = redisson.getGeo("test");
+geo.add(new GeoEntry(13.361389, 38.115556, "Palermo"),
+        new GeoEntry(15.087269, 37.502669, "Catania"));
+Double distance = geo.dist("Palermo", "Catania", GeoUnit.METERS);
+Map<String, GeoPosition> positions = geo.pos("test2", "Palermo", "test3", "Catania", "test1");
+List<String> cities = geo.search(GeoSearchArgs.from(15, 37).radius(200, GeoUnit.KILOMETERS));
+Map<String, GeoPosition> citiesWithPositions = geo.searchWithPosition(GeoSearchArgs.from(15, 37).radius(200, GeoUnit.KILOMETERS));
+// 异步操作
+RGeo<String> geo = redisson.getGeo("test");
+RFuture<Long> addFuture = geo.addAsync(new GeoEntry(13.361389, 38.115556, "Palermo"),
+        new GeoEntry(15.087269, 37.502669, "Catania"));
+RFuture<Double> distanceFuture = geo.distAsync("Palermo", "Catania", GeoUnit.METERS);
+RFuture<Map<String, GeoPosition>> positionsFuture = geo.posAsync("test2", "Palermo", "test3", "Catania", "test1");
+RFuture<List<String>> citiesFuture = geo.searchAsync(GeoSearchArgs.from(15, 37).radius(200, GeoUnit.KILOMETERS));
+RFuture<Map<String, GeoPosition>> citiesWithPositions = geo.searchWithPositionAsync(GeoSearchArgs.from(15, 37).radius(200, GeoUnit.KILOMETERS));
+
+BitSet操作示例
+// 同步操作
+RBitSet set = redisson.getBitSet("simpleBitset");
+set.set(0, true);
+set.set(1812, false);
+set.clear(0);
+set.and("anotherBitset");
+set.xor("anotherBitset");
+// 异步操作
+RBitSetAsync set = redisson.getBitSet("simpleBitset");
+RFuture<Boolean> setFuture = set.setAsync(0, true);
+RFuture<Boolean> setFuture = set.setAsync(1812, false);
+RFuture<Void> clearFuture = set.clearAsync(0);
+RFuture<Void> andFuture = set.andAsync("anotherBitset);
+RFuture<Void> xorFuture = set.xorAsync("anotherBitset");
+
+AtomicLong示例
+// 同步操作
+RAtomicLong atomicLong = redisson.getAtomicLong("myAtomicLong");
+atomicLong.set(3);
+atomicLong.incrementAndGet();
+atomicLong.get();
+// 异步操作
+RAtomicLongAsync atomicLong = redisson.getAtomicLong("myAtomicLong");
+RFuture<Void> setFuture = atomicLong.setAsync(3);
+RFuture<Long> igFuture = atomicLong.incrementAndGetAsync();
+RFuture<Long> getFuture = atomicLong.getAsync();
+
+AtomicDouble示例
+// 同步操作
+RAtomicDouble atomicDouble = redisson.getAtomicDouble("myAtomicDouble");
+atomicDouble.set(2.81);
+atomicDouble.addAndGet(4.11);
+atomicDouble.get();
+// 异步操作
+RAtomicDoubleAsync atomicDouble = redisson.getAtomicDouble("myAtomicDouble");
+RFuture<Void> setFuture = atomicDouble.setAsync(2.81);
+RFuture<Double> agFuture = atomicDouble.addAndGetAsync(4.11);
+RFuture<Double> getFuture = atomicDouble.getAsync();
+
+Topic示例(订阅和发布)
+// 同步操作
+RTopic topic = redisson.getTopic("myTopic");
+int listenerId = topic.addListener(SomeObject.class, new MessageListener<SomeObject>() {
+    @Override
+    public void onMessage(String channel, SomeObject message) {
+        //...
+    }
+});
+// 另一个线程发布对象
+RTopic topic = redisson.getTopic("myTopic");
+long clientsReceivedMessage = topic.publish(new SomeObject());
+// 异步操作
+RTopicAsync topic = redisson.getTopic("myTopic");
+RFuture<Integer> listenerFuture = topic.addListenerAsync(SomeObject.class,
+    new MessageListener<SomeObject>() {
+    @Override
+    public void onMessage(String channel, SomeObject message) {
+        //...
+    }
+});
+// 另一个线程异步发布对象
+RTopicAsync topic = redisson.getTopic("myTopic");
+RFuture<Long> publishFuture = topic.publishAsync(new SomeObject());
+
+RateLimiter示例
+// 同步操作
+RRateLimiter limiter = redisson.getRateLimiter("myLimiter");
+// 仅仅初始化一次
+// 2秒5次
+limiter.trySetRate(RateType.OVERALL, 5, 2, RateIntervalUnit.SECONDS);
+// 获取三个许可
+limiter.acquire(3);
+// 异步操作
+RRateLimiter limiter = redisson.getRateLimiter("myLimiter");
+RFuture<Boolean> setRateFuture = limiter.trySetRate(RateType.OVERALL,
+    5, 2, RateIntervalUnit.SECONDS);
+RFuture<Void> aquireFuture = limiter.acquire(3);
+
+Rmap示例
+RMap<String, SomeObject> map = redisson.getMap("anyMap");
+SomeObject prevObject = map.put("123", new SomeObject());
+SomeObject currentObject = map.putIfAbsent("323", new SomeObject());
+SomeObject obj = map.remove("123");
+// use fast*方法忽略之前的值
+map.fastPut("a", new SomeObject());
+map.fastPutIfAbsent("d", new SomeObject());
+map.fastRemove("b");
+RFuture<SomeObject> putAsyncFuture = map.putAsync("321");
+RFuture<Void> fastPutAsyncFuture = map.fastPutAsync("321");
+map.fastPutAsync("321", new SomeObject());
+map.fastRemoveAsync("321");

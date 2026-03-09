@@ -1,0 +1,18 @@
+- name: 更新页面
+  hosts: all
+  become: true
+  tasks:
+    - name: 拷贝index.html
+      copy: 
+        src=index.html 
+        dest=/usr/share/nginx/html/index.html
+        mode=0644
+      notify:
+        - 重启nginx
+    - debug:
+        msg: 'Page updated'
+  handlers:
+    - name: 重启nginx
+      ansible.builtin.service:
+        name: nginx
+        state: restarted

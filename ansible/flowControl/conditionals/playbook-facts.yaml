@@ -1,0 +1,15 @@
+- name: Install ngnix
+  hosts: all
+  become: true
+  tasks:
+  - name: Get the distribution
+    set_fact:
+      distribution: "{{ ansible_facts['distribution'] }}"
+  - name: install nginx in Fedora
+    dnf:
+      name: nginx
+    when: distribution == "Fedora"
+  - name: install nginx in Debian
+    apt:
+      name: ngnix
+    when: distribution == "Debian"

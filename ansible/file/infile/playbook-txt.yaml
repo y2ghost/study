@@ -1,0 +1,34 @@
+- name: In File
+  hosts: all
+  tasks:
+  - name: Insert multiline content
+    blockinfile:
+      path: /home/test/welcome.txt
+      create: true
+      block: |
+        Hello Ada
+        Hello World
+  - name: "Read a file content"
+    shell: |
+      cat /home/test/welcome.txt
+    register: file_content
+  - name: "Print the file content to a console"
+    debug:
+      msg: "{{ file_content.stdout }}"
+  - name: Place line
+    lineinfile:
+      line: Hello Alexandra
+      path: /home/test/welcome.txt
+      create: true
+  - name: Remove line
+    lineinfile:
+      line: Hello World
+      path: /home/test/welcome.txt
+      state: absent
+  - name: "Read a file content"
+    shell: |
+      cat /home/test/welcome.txt
+    register: file_content
+  - name: "Print the file content to a console"
+    debug:
+      msg: "{{ file_content.stdout }}"

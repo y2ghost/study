@@ -1,0 +1,15 @@
+<entity-mappings
+        version="2.2"
+        xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm
+            http://xmlns.jcp.org/xml/ns/persistence/orm_2_2.xsd">
+    <entity class="study.ywork.jpa.model.simple.Item">
+        <attributes>
+            <!--覆盖列名 -->
+            <basic name="name">
+                <column name="ITEM_NAME"/>
+            </basic>
+        </attributes>
+    </entity>
+</entity-mappings>

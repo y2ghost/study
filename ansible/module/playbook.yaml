@@ -1,0 +1,11 @@
+- name: CustomModule
+  hosts: all 
+
+  tasks:
+    - name: executes custom module
+      hello: 
+        name: "test" 
+      register: demo_greeting 
+    - name: dump output
+      debug: 
+        msg: "{{ demo_greeting }}\n"

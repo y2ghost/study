@@ -1,0 +1,12 @@
+[versions]
+bootstrap = "5.3.8"
+redisson = "3.52.0"
+
+[libraries]
+webjars-bootstrap = { module = "org.webjars:bootstrap", version.ref = "bootstrap" }
+redisson = { module = "org.redisson:redisson", version.ref = "redisson" }
+
+[plugins]
+spring-boot = { id = "org.springframework.boot", version = "3.4.12" }
+spring-dependency = { id = "io.spring.dependency-management", version = "1.1.7" }
+

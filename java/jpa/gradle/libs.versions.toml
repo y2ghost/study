@@ -1,0 +1,19 @@
+[versions]
+hibernate = "6.5.2.Final"
+h2 = "2.2.224"
+junit5 = "5.10.2"
+validator = "8.0.1.Final"
+el = "6.0.0"
+hikariCP = "5.0.1"
+log4j = "2.23.1"
+
+[libraries]
+hibernate-platform = { module = "org.hibernate.orm:hibernate-platform", version.ref = "hibernate" }
+hibernate-jpamodelgen = { module = "org.hibernate.orm:hibernate-jpamodelgen", version.ref = "hibernate" }
+hibernate-validator = { module = "org.hibernate.validator:hibernate-validator", version.ref = "validator" }
+db-h2 = { module = "com.h2database:h2", version.ref = "h2" }
+junit5-bom = { module = "org.junit:junit-bom", version.ref = "junit5" }
+el-api = { module = "jakarta.el:jakarta.el-api", version.ref = "el" }
+zaxxer-hikariCP = { module ="com.zaxxer:HikariCP", version.ref = "hikariCP" }
+log4j-core = { module ="org.apache.logging.log4j:log4j-core", version.ref = "log4j" }
+

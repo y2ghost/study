@@ -1,0 +1,408 @@
+## 高级搜索
+# 创建公交站点位置模型
+PUT bus_stops
+{"mappings":{"properties":{"name":{"type":"text"},"location":{"type":"geo_point"}}}}
+
+# 字符串示例(lat, lon)
+POST bus_stops/_doc
+{"name":"London Bridge Station","location":"51.07, 0.08"}
+
+# WKT point示例 (lat, lon)
+POST bus_stops/_doc
+{"text":"London Victoria Station","location":"POINT (51.49 0.14)"}
+
+# location-object示例
+POST bus_stops/_doc
+{"text":"Leciester Square Station","location":{"lon":-0.12,"lat":51.5}}
+
+# 位置数组示例 (lon, lat)
+POST bus_stops/_doc
+{"text":"Westminster Station","location":[51.54,0.23]}
+
+# geohash示例
+POST bus_stops/_doc
+{"text":"Hyde Park Station","location":"gcpvh2bg7sff"}
+
+# 创建旅馆模型
+PUT restaurants
+{
+  "mappings": {
+    "properties": {
+      "name": {
+        "type": "text"
+      },
+      "town_centre": {
+        "type": "geo_point"
+      },
+      "location": {
+        "type": "geo_point"
+      },
+      "category": {
+        "type": "text"
+      },
+      "hygenie_rating": {
+        "type": "short"
+      },
+      "borough": {
+        "type": "text"
+      }
+    }
+  }
+}
+
+# geo_bounding_box查询示例
+GET restaurants/_search
+{
+  "query": {
+    "geo_bounding_box": {
+      "location": {
+        "top_left": {
+          "lat": 52,
+          "lon": 0.2
+        },
+        "bottom_right": {
+          "lat": 49,
+          "lon": 0.1
+        }
+      }
+    }
+  }
+}
+
+GET restaurants/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_all": {}
+        }
+      ],
+      "filter": {
+        "geo_bounding_box": {
+          "location": {
+            "top_left": {
+              "lat": 52,
+              "lon": 0.2
+            },
+            "bottom_right": {
+              "lat": 49,
+              "lon": 0.1
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+GET restaurants/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_all": {}
+        }
+      ],
+      "filter": [
+        {
+          "geo_bounding_box": {
+            "location": {
+              "top_left": [
+                0.04,
+                52
+              ],
+              "bottom_right": [
+                0.08,
+                49
+              ]
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET restaurants/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_all": {}
+        }
+      ],
+      "filter": [
+        {
+          "geo_bounding_box": {
+            "location": {
+              "wkt": "BBOX(0.08, 0.04, 52.00, 49.00)"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# 创建咖啡店模型
+PUT cafes
+{"mappings":{"properties":{"name":{"type":"text"},"address":{"type":"geo_shape"}}}}
+
+
+# GeoJSON format示例
+PUT cafes/_doc/1
+{"name":"Costa Coffee","address":{"type":"Point","coordinates":[0.17,51.57]}}
+
+# WKT format示例
+PUT /cafes/_doc/2
+{"name":"Costa Coffee","address":"POINT (0.17 51.57)"}
+
+# Geo-distance查询
+GET restaurants/_search
+{"query":{"geo_distance":{"distance":"175 km","location":{"lat":50,"lon":0.1}}}}
+
+GET cafes/_search
+{"query":{"geo_distance":{"distance":"175 km","address":{"lat":50,"lon":0.1}}}}
+
+# Geo-shape查询
+GET cafes/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "match_all": {}
+        }
+      ],
+      "filter": [
+        {
+          "geo_shape": {
+            "address": {
+              "shape": {
+                "type": "envelope",
+                "coordinates": [
+                  [
+                    0.1,
+                    55
+                  ],
+                  [
+                    1,
+                    45
+                  ]
+                ]
+              },
+              "relation": "within"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+# shape查询示例
+# 创建shape模型
+PUT myshapes
+{"mappings":{"properties":{"name":{"type":"text"},"myshape":{"type":"shape"}}}}
+
+PUT myshapes/_doc/1
+{"name":"A point","myshape":{"type":"point","coordinates":[12,14]}}
+
+PUT myshapes/_doc/2
+{"name":"A multipoint shape","myshape":{"type":"multipoint","coordinates":[[12,14],[13,16]]}}
+
+GET myshapes/_search
+{"query":{"shape":{"myshape":{"shape":{"type":"envelope","coordinates":[[10,16],[14,10]]}}}}}
+
+# Span查询模型
+PUT quotes
+{"mappings":{"properties":{"author":{"type":"text"},"quote":{"type":"text"}}}}
+
+PUT quotes/_doc/1
+{
+  "author": "Isaac Newton",
+  "quote": "Plato is my friend Aristotle is my friend but my greatest friend is truth."
+}
+
+GET quotes/_search
+{"query":{"span_first":{"match":{"span_term":{"quote":"aristotle"}},"end":5}}}
+
+# Span near查询 
+GET quotes/_search
+{
+  "query": {
+    "span_near": {
+      "clauses": [
+        {
+          "span_term": {
+            "quote": "plato"
+          }
+        },
+        {
+          "span_term": {
+            "quote": "aristotle"
+          }
+        }
+      ],
+      "slop": 3,
+      "in_order": true
+    }
+  }
+}
+
+GET quotes/_search
+{
+  "query": {
+    "span_near": {
+      "clauses": [
+        {
+          "span_term": {
+            "quote": "plato"
+          }
+        },
+        {
+          "span_term": {
+            "quote": "aristotle"
+          }
+        },
+        {
+          "span_term": {
+            "quote": "truth"
+          }
+        }
+      ],
+      "slop": 20,
+      "in_order": true
+    }
+  }
+}
+
+# Span within查询
+GET quotes/_search
+{
+  "query": {
+    "span_within": {
+      "little": {
+        "span_term": {
+          "quote": "friend"
+        }
+      },
+      "big": {
+        "span_near": {
+          "clauses": [
+            {
+              "span_term": {
+                "quote": "plato"
+              }
+            },
+            {
+              "span_term": {
+                "quote": "aristotle"
+              }
+            }
+          ],
+          "slop": 3,
+          "in_order": true
+        }
+      }
+    }
+  }
+}
+
+GET quotes/_search
+{
+  "query": {
+    "span_within": {
+      "little": {
+        "span_term": {
+          "quote": "aristotle"
+        }
+      },
+      "big": {
+        "span_near": {
+          "clauses": [
+            {
+              "span_term": {
+                "quote": "friend"
+              }
+            },
+            {
+              "span_term": {
+                "quote": "friend"
+              }
+            }
+          ],
+          "slop": 4,
+          "in_order": true
+        }
+      }
+    }
+  }
+}
+
+
+GET quotes/_search
+{
+  "query": {
+    "span_within": {
+      "little": {
+        "span_term": {
+          "quote": "aristotle"
+        }
+      },
+      "big": {
+        "span_near": {
+          "clauses": [
+            {
+              "span_term": {
+                "quote": "friend"
+              }
+            },
+            {
+              "span_term": {
+                "quote": "friend"
+              }
+            },
+            {
+              "span_term": {
+                "quote": "truth"
+              }
+            }
+          ],
+          "slop": 20,
+          "in_order": true
+        }
+      }
+    }
+  }
+}
+
+# Span-or查询
+GET quotes/_search
+{
+  "query": {
+    "span_or": {
+      "clauses": [
+        {
+          "span_term": {
+            "quote": "plato"
+          }
+        },
+        {
+          "span_term": {
+            "quote": "friend"
+          }
+        },
+        {
+          "span_term": {
+            "quote": "aristotle"
+          }
+        }
+      ]
+    }
+  }
+}
+

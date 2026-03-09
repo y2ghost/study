@@ -1,0 +1,8 @@
+- name: Check file
+  hosts: all
+  vars:
+    special: false
+  tasks:
+  - name: Run the command if not special
+    ansible.builtin.shell: echo "Not special"
+    when: special == false

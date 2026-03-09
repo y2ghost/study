@@ -1,0 +1,82 @@
+# 使用分析器进行分词
+# 安装分词器: bin/elasticsearch-plugin install analysis-icu
+# Simple Analyzer – 按照非字母切分(符号被过滤)，小写处理
+# Stop Analyzer – 小写处理，停用词过滤(the，a，is)
+# Whitespace Analyzer – 按照空格切分，不转小写
+# Keyword Analyzer – 不分词，直接将输入当作输出
+# Pattern Analyzer – 正则表达式，默认 \W+ (非字符分隔)
+# Language – 提供了30多种常见语言的分词器
+
+# 查看不同的analyzer的效果
+GET /_analyze
+{
+  "analyzer": "standard",
+  "text": "2 running Quick brown-foxes leap over lazy dogs in the summer evening."
+}
+
+GET /_analyze
+{
+  "analyzer": "simple",
+  "text": "2 running Quick brown-foxes leap over lazy dogs in the summer evening."
+}
+
+GET /_analyze
+{
+  "analyzer": "stop",
+  "text": "2 running Quick brown-foxes leap over lazy dogs in the summer evening."
+}
+
+GET /_analyze
+{
+  "analyzer": "whitespace",
+  "text": "2 running Quick brown-foxes leap over lazy dogs in the summer evening."
+}
+
+GET /_analyze
+{
+  "analyzer": "keyword",
+  "text": "2 running Quick brown-foxes leap over lazy dogs in the summer evening."
+}
+
+GET /_analyze
+{
+  "analyzer": "pattern",
+  "text": "2 running Quick brown-foxes leap over lazy dogs in the summer evening."
+}
+
+GET /_analyze
+{
+  "analyzer": "english",
+  "text": "2 running Quick brown-foxes leap over lazy dogs in the summer evening."
+}
+
+POST _analyze
+{
+  "analyzer": "icu_analyzer",
+  "text": "他说的确实在理”"
+}
+
+POST _analyze
+{
+  "analyzer": "standard",
+  "text": "他说的确实在理”"
+}
+
+POST _analyze
+{
+  "analyzer": "icu_analyzer",
+  "text": "这个苹果不大好吃"
+}
+
+# 创建自定义analyzer示例
+# type: 指定分词器类型，接受内置分词器以及custom值
+# tokenizer: 指定分词器
+# char_filter: 指定字符过滤器
+# filter: 指定分词过滤器
+
+PUT test-index
+{"settings":{"analysis":{"analyzer":{"my_custom_analyzer":{"type":"custom","tokenizer":"standard","char_filter":["html_strip"],"filter":["lowercase","asciifolding"]}}}}}
+
+POST test-index/_analyze
+{"analyzer":"my_custom_analyzer","text":"Is this <b>déjà vu</b>?"}
+

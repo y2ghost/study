@@ -1,0 +1,60 @@
+plugins {
+    id "java"
+    id "eclipse"
+    id "application"
+}
+
+group = "study.ywork"
+version = "1.1.1"
+description = "JPA学习项目"
+
+eclipse {
+    sourceSets {
+        main {
+            java {
+                srcDirs += ["build/generated/sources/annotationProcessor/java/main"]
+            }
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    maven {
+        url "https://maven.aliyun.com/repository/public/"
+    }
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation platform(libs.hibernate.platform)
+    // 使用hibernate platform里面的依赖版本
+    implementation "org.hibernate.orm:hibernate-core"
+    implementation "org.hibernate.orm:hibernate-envers"
+    implementation "org.hibernate.orm:hibernate-hikaricp"
+    implementation "jakarta.transaction:jakarta.transaction-api"
+    implementation libs.hibernate.validator
+    implementation libs.el.api
+    implementation libs.zaxxer.hikariCP
+    implementation libs.log4j.core
+    implementation libs.db.h2
+    annotationProcessor libs.hibernate.jpamodelgen
+    testImplementation platform(libs.junit5.bom)
+    testImplementation "org.junit.jupiter:junit-jupiter-engine"
+    testImplementation "org.junit.jupiter:junit-jupiter-params"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
+}
+
+tasks.named("test") {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass = project.properties.getOrDefault("mainClass", "study.ywork.jpa.hello.Main")
+}

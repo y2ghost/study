@@ -1,0 +1,117 @@
+# 综合排序：Function Score Query 优化算分
+# 提供了几种默认的计算分值的函数
+# Weight: 为每⼀个文档设置一个简单而不被规范化的权重
+# Field Value Factor: 使⽤数值来修改 _score，例如将热度和点赞数作为算分的参考因素
+# Random Score: 为每一个用户使用一个不同随机算分结果
+# 衰减函数: 以某个字段的值为标准，距离某个值越近，得分越高
+# Script Score: ⾃定义脚本完全控制所需逻辑
+
+DELETE blogs
+PUT /blogs/_doc/1
+{
+  "title":   "About popularity",
+  "content": "In this post we will talk about...",
+  "votes":   0
+}
+
+PUT /blogs/_doc/2
+{
+  "title":   "About popularity",
+  "content": "In this post we will talk about...",
+  "votes":   100
+}
+
+PUT /blogs/_doc/3
+{
+  "title":   "About popularity",
+  "content": "In this post we will talk about...",
+  "votes":   1000000
+}
+
+POST /blogs/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "multi_match": {
+          "query":    "popularity",
+          "fields": [ "title", "content" ]
+        }
+      },
+      "field_value_factor": {
+        "field": "votes"
+      }
+    }
+  }
+}
+
+# 使用modifier平滑算分曲线
+POST /blogs/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "multi_match": {
+          "query":    "popularity",
+          "fields": [ "title", "content" ]
+        }
+      },
+      "field_value_factor": {
+        "field": "votes",
+        "modifier": "log1p"
+      }
+    }
+  }
+}
+
+POST /blogs/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "multi_match": {
+          "query":    "popularity",
+          "fields": [ "title", "content" ]
+        }
+      },
+      "field_value_factor": {
+        "field": "votes",
+        "modifier": "log1p" ,
+        "factor": 0.1
+      }
+    }
+  }
+}
+
+POST /blogs/_search
+{
+  "query": {
+    "function_score": {
+      "query": {
+        "multi_match": {
+          "query":    "popularity",
+          "fields": [ "title", "content" ]
+        }
+      },
+      "field_value_factor": {
+        "field": "votes",
+        "modifier": "log1p" ,
+        "factor": 0.1
+      },
+      "boost_mode": "sum",
+      "max_boost": 3
+    }
+  }
+}
+
+POST /blogs/_search
+{
+  "query": {
+    "function_score": {
+      "random_score": {
+        "seed": 911119
+      }
+    }
+  }
+}
+

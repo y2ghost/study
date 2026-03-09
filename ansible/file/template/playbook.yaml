@@ -1,0 +1,17 @@
+---
+- name: configuration template
+  hosts: all
+  vars: # <1>
+    - username: test
+    - password: test1234
+  tasks:
+    - name: Copy conf files
+      template: # <2>
+        src: "conf.properties.j2" # <3>
+        dest: "/tmp/conf.properties" # <4>
+    - name: Display conf.properties contents
+      command: cat conf.properties chdir=/tmp
+      register: command_output
+    - name: Print to console # <5>
+      debug:
+        msg: "{{command_output.stdout.split('\n')}}"

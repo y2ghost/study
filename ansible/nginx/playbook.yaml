@@ -1,0 +1,48 @@
+- name: 配置nginx
+  hosts: all 
+  become: true
+
+  tasks:
+    - name: 安装nginx
+      dnf: 
+        name=nginx
+
+    - name: 拷贝nginx配置文件
+      copy: 
+        src=nginx.conf 
+        dest=/etc/nginx/conf.d/localhost.conf
+
+    - name: 拷贝index.html文件
+      copy: 
+        src=index.html 
+        dest=/usr/share/nginx/html/index.html
+        mode=0644
+      tags: ['deploy']        
+
+    - name: 重启nginx服务
+      service:
+        name: nginx
+        state: restarted
+      tags: ['deploy']
+
+    - name: 检查nginx服务
+      uri: 
+        url: http://localhost/index.html
+        return_content: yes
+      register: response 
+      tags: ['deploy']
+    - name: 打印nginx检查结果
+      debug:
+        var: response.content 
+      tags: ['deploy', 'test']
+
+    - name: 配置firewalld服务
+      ansible.posix.firewalld:
+        service: http
+        permanent: true
+        state: enabled
+    - name: 重启firewalld服务
+      service:
+        name=firewalld
+        state=restarted
+

@@ -1,0 +1,9 @@
+- name: Checks Baidu
+  hosts: all
+  tasks:
+    - name: Fetch webpage
+      uri:
+        url: https://www.baidu.com/
+        return_content: true
+      register: output
+      changed_when: "output.status == 200"

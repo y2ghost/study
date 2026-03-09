@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <h1>按钮示例</h1>
+    <button id="default_btn" class="default" name="dft_btn">默认按钮</button>
+    <br /><br />
+    <form>
+      员工名字:<input type="text" id="ename" name="ename" /> <br /><br />
+      员工部门:<input type="text" id="dept" name="dept" /> <br /><br />
+      <input type="submit" value="提交表单" />
+      <br /><br />
+      <input
+        type="image"
+        id="img"
+        name="img_btn"
+        src="img/yy-icon.png"
+        alt="点我"
+      />
+    </form>
+    <br /><br />
+    <h1>选择你的性别:</h1>
+    <div>
+      <input type="radio" id="male" name="gender" value="male" checked />
+      <label for="male">男性</label>
+    </div>
+    <div>
+      <input type="radio" id="female" name="gender" value="female" />
+      <label for="female">女性</label>
+    </div>
+    <div>
+      <input type="radio" id="other" name="gender" value="other" />
+      <label for="other">保密</label>
+    </div>
+    <br /><br />
+    <form>
+      <input type="checkbox" id="firefox" name="browser1" value="b1" checked />
+      <label for="brower1">Firefox</label><br />
+      <input type="checkbox" id="chrome" name="browser2" value="b2" />
+      <label for="browser2">Chrome</label><br />
+      <input type="checkbox" id="opera" name="browser3" value="b3" />
+      <label for="browser3">Opera</label><br />
+      <input type="checkbox" id="edge" name="browser4" value="b4" />
+      <label for="browser4">Edge</label>
+    </form>
+    <br /><br />
+    <h1>血型</h1>
+    <label for="blood">选择血型:</label>
+    <select name="blood" id="bld_grp">
+      <option value="A">A血型</option>
+      <option value="B">B血型</option>
+      <option value="O">O血型</option>
+      <option value="AB">AB血型</option>
+      <option value="Bombay">孟买血型</option>
+    </select>
+    <br /><br />
+    <h1>水果沙拉</h1>
+    <label for="fruits">选择多种水果:</label>
+    <select id="fruits" name="fruits" size="7" multiple>
+      <option value="apple">苹果</option>
+      <option value="banana">香蕉</option>
+      <option value="cranberry">蔓越莓</option>
+      <option value="dragonfruit">火龙果</option>
+      <option value="elderberry">接骨木莓</option>
+      <option value="figs">无花果</option>
+      <option value="grapes">葡萄</option>
+    </select>
+    <br /><br />
+  </body>
+</html>

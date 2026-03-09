@@ -1,0 +1,40 @@
+plugins {
+    id 'application'
+}
+
+dependencies {
+    implementation(project(':lib'))
+    testImplementation libs.junit.jupiter
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation libs.guava
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+application {
+    mainClass = 'org.example.App'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+println("BUILD SCRIPT: 配置阶段执行")
+
+tasks.register("task1") {
+    println("REGISTER TASK1: 配置阶段执行注册任务task1")
+}
+
+tasks.named("task1") {
+    println("NAMED TASK1: 配置阶段执行named('task1')")
+    doFirst {
+        println("NAMED TASK1 - doFirst: 运行阶段执行task1.doFirst")
+    }
+    doLast {
+        println("NAMED TASK1 - doLast: 运行阶段执行task1.doLast")
+    }
+}

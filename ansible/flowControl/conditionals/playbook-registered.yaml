@@ -1,0 +1,12 @@
+- name: Check file
+  hosts: all
+  tasks:
+  - name: Check if file already exists
+    command: ls /home/test/application.properties
+    register: file_exists
+    ignore_errors: yes
+  - name: Copy conf file for the app
+    copy: 
+      src: application.properties
+      dest: /home/test/application.properties
+    when: file_exists is failed

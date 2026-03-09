@@ -1,0 +1,26 @@
+<?xml version='1.1' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">org.mariadb.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mariadb://192.168.56.166:3306/testdb</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">rootroot</property>
+        <property name="dialect">org.hibernate.dialect.MariaDBDialect</property>
+        <property name="show_sql">true</property>
+        <property name="hbm2ddl.auto">create</property>
+        <mapping class="study.ywork.hibernate.entities.EmployeeList"/>
+        <mapping class="study.ywork.hibernate.entities.EmployeeSet"/>
+        <mapping class="study.ywork.hibernate.entities.EmployeeArray"/>
+        <mapping class="study.ywork.hibernate.entities.PassportDetailOne"/>
+        <mapping class="study.ywork.hibernate.entities.PersonOne"/>
+        <mapping class="study.ywork.hibernate.entities.PassportDetailTwo"/>
+        <mapping class="study.ywork.hibernate.entities.PersonTwo"/>
+        <mapping class="study.ywork.hibernate.entities.EmployeeOne"/>
+        <mapping class="study.ywork.hibernate.entities.DetailOne"/>
+        <mapping class="study.ywork.hibernate.entities.Movie"/>
+        <mapping class="study.ywork.hibernate.entities.Actor"/>
+    </session-factory>
+</hibernate-configuration>

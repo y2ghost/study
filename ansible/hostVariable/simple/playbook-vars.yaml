@@ -1,0 +1,10 @@
+- name: 显示所有变量的值
+  hosts: all
+  tasks:
+    - name: 显示var的值
+      ansible.builtin.command: /bin/echo "Hello World {{msg_name}}"
+      register: response 
+    - name: Print result
+      debug:
+        var: response
+
