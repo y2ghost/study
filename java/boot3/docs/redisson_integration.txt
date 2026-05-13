@@ -1,0 +1,37 @@
+spring-cache集成
+@Configuration
+@ComponentScan
+@EnableCaching
+public static class Application {
+    @Bean(destroyMethod="shutdown")
+    RedissonClient redisson() throws IOException {
+        Config config = new Config();
+        config.useClusterServers()
+              .addNodeAddress("redis://127.0.0.1:7004", "redis://127.0.0.1:7001");
+        return Redisson.create(config);
+    }
+    @Bean
+    CacheManager cacheManager(RedissonClient redissonClient) {
+        Map<String, CacheConfig> config = new HashMap<String, CacheConfig>();
+
+        // create "testMap" cache with ttl = 24 minutes and maxIdleTime = 12 minutes
+        config.put("testMap", new CacheConfig(24*60*1000, 12*60*1000));
+        return new RedissonSpringCacheManager(redissonClient, config);
+    }
+}
+// 从配置文件构成
+@Configuration
+@ComponentScan
+@EnableCaching
+public static class Application {
+    @Bean(destroyMethod="shutdown")
+    RedissonClient redisson(@Value("classpath:/redisson.yaml") Resource configFile) throws IOException {
+        Config config = Config.fromYAML(configFile.getInputStream());
+        return Redisson.create(config);
+    }
+    @Bean
+    CacheManager cacheManager(RedissonClient redissonClient) throws IOException {
+        return new RedissonSpringCacheManager(redissonClient, "classpath:/cache-config.yaml");
+    }
+}
+

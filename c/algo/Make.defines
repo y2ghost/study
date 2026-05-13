@@ -1,0 +1,6 @@
+LIB := $(ROOT)/lib/libalgorithm.a
+LDFLAGS = -L$(ROOT)/lib -lalgorithm
+CFLAGS := -I$(ROOT)/include -Wall -Werror -g
+SOURCES := $(shell echo *.c)
+
+.PHONY: all clean

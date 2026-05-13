@@ -1,0 +1,95 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="所有测试示例">
+    <method-selectors>
+        <method-selector>
+            <selector-class name="study.ywork.jpa.util.DatabaseTestMethodSelector"/>
+        </method-selector>
+    </method-selectors>
+
+    <test name="Hello World">
+        <packages>
+            <package name="study.ywork.jpa.hello"/>
+        </packages>
+    </test>
+
+    <test name="Simple Mappings">
+        <packages>
+            <package name="study.ywork.jpa.simple"/>
+        </packages>
+    </test>
+
+    <test name="Advanced Mappings">
+        <packages>
+            <package name="study.ywork.jpa.advanced"/>
+            <package name="study.ywork.jpa.converter"/>
+        </packages>
+    </test>
+
+    <test name="Inheritance Mappings">
+        <packages>
+            <package name="study.ywork.jpa.inheritance"/>
+        </packages>
+    </test>
+
+    <test name="Collections/Associations">
+        <packages>
+            <package name="study.ywork.jpa.collections"/>
+            <package name="study.ywork.jpa.associations"/>
+        </packages>
+    </test>
+
+    <test name="Complex Schemas">
+        <packages>
+            <package name="study.ywork.jpa.complexschemas"/>
+        </packages>
+    </test>
+
+    <test name="Concurrency Control">
+        <packages>
+            <package name="study.ywork.jpa.concurrency"/>
+        </packages>
+    </test>
+
+    <test name="Fetching">
+        <packages>
+            <package name="study.ywork.jpa.fetching"/>
+        </packages>
+    </test>
+
+    <test name="Filtering">
+        <packages>
+            <package name="study.ywork.jpa.filtering"/>
+        </packages>
+    </test>
+
+    <test name="Querying">
+        <packages>
+            <package name="study.ywork.jpa.querying"/>
+            <package name="study.ywork.jpa.querying.jpql"/>
+            <package name="study.ywork.jpa.querying.criteria"/>
+            <package name="study.ywork.jpa.querying.advanced"/>
+            <package name="study.ywork.jpa.querying.sql"/>
+        </packages>
+    </test>
+
+    <test name="Custom SQL">
+        <packages>
+            <package name="study.ywork.jpa.customsql"/>
+        </packages>
+    </test>
+
+    <test name="Scaling">
+        <packages>
+            <package name="study.ywork.jpa.bulkbatch"/>
+            <package name="study.ywork.jpa.cache"/>
+        </packages>
+    </test>
+
+    <test name="Conversations">
+        <packages>
+            <package name="study.ywork.jpa.conversation"/>
+        </packages>
+    </test>
+</suite>
+

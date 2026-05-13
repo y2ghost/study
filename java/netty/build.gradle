@@ -1,0 +1,66 @@
+plugins {
+    id "java"
+}
+
+repositories {
+    maven {
+        url "https://maven.aliyun.com/repository/public/"
+    }
+}
+
+dependencies {
+    implementation "io.netty:netty-all:${nettyVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+task runEchoClient(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'study.ywork.netty.echo.client.EchoClient'
+    args 'localhost', '8888'
+}
+
+task runEchoServer(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'study.ywork.netty.echo.server.EchoServer'
+    args '8888'
+}
+
+task runChatServer(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'study.ywork.netty.websocket.ChatServer'
+    args '9999'
+}
+
+task copyResources(type: Copy) {
+    from "${projectDir}/src/main/resources"
+    into "${buildDir}/classes/java/main"
+}
+
+runChatServer.dependsOn copyResources
+
+task runLogClient(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'study.ywork.netty.logevent.LogEventBroadcaster'
+    args '9999', '/var/log/system.log'
+}
+
+task runLogServer(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'study.ywork.netty.logevent.LogEventMonitor'
+    args '9999'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceCompatibility = "11"
+targetCompatibility = "11"
+group = "study.ywork"
+version = "1.0"
+

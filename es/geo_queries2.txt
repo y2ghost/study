@@ -1,0 +1,270 @@
+# 创建GEO索引
+PUT /geo_index
+{"mappings":{"properties":{"location":{"type":"geo_point"}}}}
+
+# 添加点(point)数据
+POST /geo_index/_doc
+{"text":"Object type Geo-point data","location":{"lat":42.14,"lon":-73.46}}
+
+POST /geo_index/_doc
+{"text":"String type Geo-point data","location":"42.14,-73.46"}
+
+POST /geo_index/_doc
+{"text":"Geohash type Geo-point data","location":"gbsuv7ztq"}
+
+POST /geo_index/_doc
+{"text":"Array type Geo-point data","location":[-73.46, 42.14]}
+
+POST /geo_index/_doc
+{"text":"Point type Geo-point data","location":"POINT (-73.46 42.14)"}
+
+# 创建GEO-SHAPE索引
+# 可以存储各种地理图形，例如圆、线段、多边形
+PUT /geoshape_index
+{"mappings":{"properties":{"location":{"type":"geo_shape"}}}}
+
+# 添加图形(shape)数据
+POST /geoshape_index/_doc
+{"text":"Point type Geo-shape data","location":{"type":"point","coordinates":[-73.03,42.89]}}
+
+POST /geoshape_index/_doc
+{"text":"Point type Geo-shape data","location":"POINT (-73.46 42.14)"}
+
+POST /geoshape_index/_doc
+{"text":"LineString type Geo-shape data","location":{
+  "type":"linestring",
+  "coordinates":[[-78.03653,36.897676],[-78.009051,36.889939]]
+}}
+
+POST /geoshape_index/_doc
+{
+  "text": "LineString type Geo-shape data",
+  "location": "LINESTRING (-77.03653 38.897676, -77.009051 38.889939)"
+}
+
+POST /geoshape_index/_doc
+{
+  "text":"Polygon type Geo-shape data",
+  "location":{"type":"polygon","coordinates":[[[100.0,0.0],[101.0,0.0],[101.0,1.0],[100.0,1.0],[100.0,0.0]]]}
+}
+
+POST /geoshape_index/_doc
+{
+  "text": "Polygon type Geo-shape data",
+  "location": "POLYGON ((100.0 0.0, 101.0 0.0, 101.0 1.0, 100.0 1.0, 100.0 0.0))"
+}
+
+POST /geoshape_index/_doc
+{
+  "text":"Polygon with a hole using GeoJSON",
+  "location":{
+    "type":"polygon",
+    "coordinates":[[[100,0],[101,0],[101,1],[100,1],[100,0]],[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]
+  }
+}
+
+POST /geoshape_index/_doc
+{
+  "text": "Polygon with a hole using WKT",
+  "location": "POLYGON ((100.0 0.0, 101.0 0.0, 101.0 1.0, 100.0 1.0, 100.0 0.0), (100.2 0.2, 100.8 0.2, 100.8 0.8, 100.2 0.8, 100.2 0.2))"
+}
+
+POST /geoshape_index/_doc
+{
+  "text":"Multipoint using GeoJSON",
+  "location":{"type":"multipoint","coordinates":[[102.0,2.0],[103.0,2.0]]}
+}
+
+POST /geoshape_index/_doc
+{
+  "text":"Multipoint using WKT",
+  "location": "MULTIPOINT (102.0 2.0, 103.0 2.0)"
+}
+
+POST /geoshape_index/_doc
+{
+  "text":"Multilinestring using GeoJSON",
+  "location":{
+    "type":"multilinestring",
+    "coordinates":[[[102,2],[103,2],[103,3],[102,3]],[[100,0],[101,0],[101,1],[100,1]],[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8]]]
+  }
+}
+
+POST /geoshape_index/_doc
+{
+  "text": "Multilinestring using WKT",
+  "location": "MULTILINESTRING ((102.0 2.0, 103.0 2.0, 103.0 3.0, 102.0 3.0), (100.0 0.0, 101.0 0.0, 101.0 1.0, 100.0 1.0), (100.2 0.2, 100.8 0.2, 100.8 0.8, 100.2 0.8))"
+}
+
+POST /geoshape_index/_doc/12
+{
+  "text":"MultiPolygon using GeoJSON",
+  "location":{
+    "type":"multipolygon",
+    "coordinates":[[[[102,2],[103,2],[103,3],[102,3],[102,2]]],[[[100,0],[101,0],[101,1],[100,1],[100,0]],[[100.2,0.2],[100.8,0.2],[100.8,0.8],[100.2,0.8],[100.2,0.2]]]]
+  }
+}
+
+POST /geoshape_index/_doc
+{
+  "text": "MultiPolygon using WKT",
+  "location": "MULTIPOLYGON (((102.0 2.0, 103.0 2.0, 103.0 3.0, 102.0 3.0, 102.0 2.0)), ((100.0 0.0, 101.0 0.0, 101.0 1.0, 100.0 1.0, 100.0 0.0), (100.2 0.2, 100.8 0.2, 100.8 0.8, 100.2 0.8, 100.2 0.2)))"
+}
+
+POST /geoshape_index/_doc
+{
+  "text":"GeometryCollection using GeoJSON",
+  "location":{
+    "type":"geometrycollection",
+    "geometries":[
+      {"type":"point","coordinates":[100,0]},
+      {"type":"linestring","coordinates":[[101,0],[102,1]]}
+      ]
+  }
+}
+
+POST /geoshape_index/_doc
+{
+  "text": "GeometryCollection using WKT",
+  "location": "GEOMETRYCOLLECTION (POINT (100.0 0.0), LINESTRING (101.0 0.0, 102.0 1.0))"
+}
+
+POST /geoshape_index/_doc
+{
+  "text":"Envelope using GeoJSON",
+  "location":{"type":"envelope","coordinates":[[100,1],[101,0]]}
+}
+
+POST /geoshape_index/_doc
+{
+  "text": "Envelope using WKT",
+  "location": "BBOX (100.0, 102.0, 2.0, 0.0)"
+}
+
+# 距离查询示例
+GET /geo_index/_search
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match_all": {}
+      },
+      "filter": {
+        "geo_distance": {
+          "distance": "100km",
+          "location": {
+            "lat": 42,
+            "lon": -73
+          }
+        }
+      }
+    }
+  }
+}
+
+# 边界查询
+GET /geo_index/_search
+{
+  "query": {
+    "bool": {
+      "must": {"match_all": {} },
+      "filter": {
+        "geo_bounding_box": {
+          "location": {
+            "top_left": {"lat": 43, "lon": -74},
+            "bottom_right": {"lat": 42,"lon": -73}
+          }
+        }
+      }
+    }
+  }
+}
+
+# 形状查询示例
+GET /geoshape_index/_search
+{
+  "query": {
+    "bool": {
+      "must": {"match_all": {} },
+      "filter": {
+        "geo_shape": {
+          "location": {
+            "shape": {"type": "envelope", "coordinates": [[100,1.0],[102,0.0]]},
+            "relation": "within"
+          }
+        }
+      }
+    }
+  }
+}
+
+# 旅馆选择示例
+DELETE /restaurants
+
+PUT /restaurants
+{"mappings":{"properties":{"location":{"type":"geo_point"}}}}
+
+POST /restaurants/_doc
+{"name":"Restaurant 1","location":"28.594817, 77.046608"}
+
+POST /restaurants/_doc
+{"name":"Restaurant 2","location":"28.593168, 77.041244"}
+
+POST /restaurants/_doc
+{"name":"Restaurant 3","location":"28.601345, 77.026352"}
+
+POST /restaurants/_doc
+{"name":"Restaurant 4","location":"28.590606, 77.062959"}
+
+# 查询距离2KM范围内的旅馆
+GET /restaurants/_search
+{
+  "query": {
+    "bool": {
+      "must": {
+        "match_all": {}
+      },
+      "filter": {
+        "geo_distance": {
+          "distance": "2km",
+          "location": "28.580116, 77.051673"
+        }
+      }
+    }
+  }
+}
+
+# 统计旅馆的距离范围
+POST /restaurants/_search
+{
+  "size": 0,
+  "aggs": {
+    "restaurant_in_range": {
+      "geo_distance": {
+        "field": "location",
+        "unit": "km",
+        "origin": {
+          "lat": 28.580116,
+          "lon": 77.051673
+        },
+        "ranges": [
+          {
+            "key": "near",
+            "from": 1,
+            "to": 1.7
+          },
+          {
+            "key": "within 2KM",
+            "from": 1.7,
+            "to": 2
+          },
+          {
+            "key": "More than 2KM away",
+            "from": 2
+          }
+        ]
+      }
+    }
+  }
+}
+

@@ -1,0 +1,9 @@
+CC := cc
+LDFLAGS :=
+RANLIB := ranlib
+AR := ar
+AWK := awk
+CFLAGS = -Wall -Werror -g -DLINUX -D_GNU_SOURCE
+SOURCES := $(shell echo *.c)
+# Common temp files to delete from each directory.
+TEMPFILES := core core.* *.o temp.* *.out

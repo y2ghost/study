@@ -1,0 +1,10 @@
+- name: 循环示例
+  hosts: all
+  tasks:
+    - name: 显示var的值
+      ansible.builtin.command: /bin/echo "Hello World {{item}}"
+      loop: [ 'dev', 'test']
+      register: response 
+    - name: 打印var的值
+      debug:
+        var: response

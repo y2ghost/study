@@ -1,0 +1,40 @@
+package study.ywork.users.web;
+
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import study.ywork.users.service.FileSystemService;
+
+import java.io.IOException;
+
+/**
+ * 上传测试
+ * curl -H "Content-Type: multipart/form-data" -F "image=@in.png" http://localhost:8080/file-images
+ * 下载测试
+ * curl -v http://localhost:8080/file-images/1 -o out.png
+ */
+@RestController
+@RequestMapping("/file-images")
+class FileSystemImageController {
+    private final FileSystemService fileSystemService;
+
+    public FileSystemImageController(FileSystemService fileSystemService) {
+        this.fileSystemService = fileSystemService;
+    }
+
+    @PostMapping("")
+    public Long uploadImage(@RequestParam("image") MultipartFile image) throws IOException {
+        return fileSystemService.save(image.getBytes(), image.getOriginalFilename());
+    }
+
+    @GetMapping(value = "/{imageId}", produces = MediaType.IMAGE_PNG_VALUE)
+    public Resource downloadImage(@PathVariable Long imageId) {
+        return fileSystemService.find(imageId);
+    }
+}

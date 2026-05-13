@@ -1,0 +1,55 @@
+## 配置和导入数据示例
+
+# 创建索引
+PUT /movies
+{
+  "settings":{"number_of_shards":"1","number_of_replicas":"0"},
+  "mappings":{"_source":{"excludes":["_id"]}}
+}
+
+# logstash配置示例
+```txt
+input {
+  file {
+    path => "/the/path/movies.csv"
+    start_position => "beginning"
+    sincedb_path => "/dev/null"
+  }
+}
+
+filter {
+  csv {
+    separator => ","
+    columns => ["id","content","genre"]
+  }
+
+  mutate {
+    split => { "genre" => "|" }
+    remove_field => ["path", "host","@timestamp","message"]
+  }
+
+  mutate {
+
+    split => ["content", "("]
+    add_field => { "title" => "%{[content][0]}"}
+    add_field => { "year" => "%{[content][1]}"}
+  }
+
+  mutate {
+    convert => {
+      "year" => "integer"
+    }
+    strip => ["title"]
+    remove_field => ["path", "host","@timestamp","message","content"]
+  }
+}
+
+output {
+   elasticsearch {
+     hosts => "http://localhost:9200"
+     index => "movies"
+     document_id => "%{id}"
+   }
+  stdout {}
+}
+```

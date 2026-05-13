@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <title>测试模块默认对象导入</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <div id="display-div"></div>
+    <script type="module">
+      import { displaySquare } from "./ModuleDefault.js";
+      displaySquare("display-div", 5);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,7 @@
+- name: In File
+  hosts: all
+  vars:
+    hosts_value: "{{ lookup('file', '/etc/hosts') }}"
+  tasks:
+  - debug:
+      msg: "hosts value is {{ hosts_value }}"

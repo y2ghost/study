@@ -1,0 +1,2 @@
+[node1]
+10.0.10.10 ansible_user=test ansible_ssh_pass=test1234

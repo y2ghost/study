@@ -1,0 +1,44 @@
+# 演示新增字段如何被搜索的示例
+# 索引创建不支持动态模板，后续新增字段时则不会被搜索到
+# 采用查询更新的方案解决问题
+PUT/ test
+{
+  "mappings": {
+    "dynamic": false,
+    "properties": {
+      "text": {
+        "type": "text"
+      }
+    }
+  }
+}
+
+POST/ test/_doc?refresh
+{"text":"words words","flag":"bar"}
+
+POST/ test/_doc?refresh
+{"text":"words words","flag":"foo"}
+
+PUT/ test/_mapping
+{
+  "properties": {
+    "text": {
+      "type": "text"
+    },
+    "flag": {
+      "type": "text",
+      "analyzer": "keyword"
+    }
+  }
+}
+
+# 此时无法正常搜索flag字段
+POST/ test/_search?filter_path=hits.total
+{"query":{"match":{"flag":"foo"}}}
+
+# 更新文档索引数据
+POST/ test/_update_by_query?refresh&conflicts=proceed
+
+POST/ test/_search?filter_path=hits.total
+{"query":{"match":{"flag":"foo"}}}
+

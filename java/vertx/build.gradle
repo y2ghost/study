@@ -1,0 +1,31 @@
+plugins {
+    id "java"
+    id "application"
+}
+
+repositories {
+    maven {
+        url "https://maven.aliyun.com/repository/public/"
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+dependencies {
+    implementation "io.vertx:vertx-core:${vertxVersion}"
+    implementation "io.vertx:vertx-web-client:${vertxVersion}"
+    implementation "io.vertx:vertx-infinispan:${vertxVersion}"
+    implementation "org.slf4j:slf4j-api:${slf4jApiVersion}"
+    implementation "ch.qos.logback:logback-core:${logbackVersion}"
+    implementation "ch.qos.logback:logback-classic:${logbackVersion}"
+}
+
+application {
+    mainClass = project.properties.getOrDefault("mainClass", "study.ywork.vertx.echo.Echo")
+}
+
+group = "study.ywork"
+version = "1.1"
+

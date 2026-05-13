@@ -1,0 +1,8 @@
+- hosts: all
+  become: true
+  tasks:
+    - name: Create a cron job
+      cron:
+        name: list_files
+        minute: "*/2" # <1>
+        job: "ls > /dev/null"

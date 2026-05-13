@@ -1,0 +1,11 @@
+# 属性字段支持的配置名称格式
+# hostNameServer
+# host-name-server
+# host_name_server
+# HOST_NAME_SERVER
+users:
+  service:
+    host: 127.0.0.1
+    port: 8080
+    username: admin
+    password: admin

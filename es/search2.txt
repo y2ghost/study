@@ -1,0 +1,80 @@
+# 搜索全部索引
+GET /_search
+
+# 搜索特定索引
+GET /newindex/_search
+GET /index1,index2/_search
+GET /i*, test*/_search
+
+# 字段全文匹配搜索
+GET /testindex/_search?q=name:test
+# 字段星号匹配搜索
+GET /testindex/_search?q=name:y*&from=0&size=10
+# 指定排序字段和方式
+GET /testindex/_search?q=name:y*&sort=gender.keyword:asc
+
+# 使用请求体参数搜索
+GET /testindex/_search
+{"query":{"term":{"name":{"value":"test"}}}}
+
+# 不对查询值做分词处理
+GET /testindex/_search
+{"query":{"term":{"name.keyword":{"value":"test"}}}}
+
+# 短语查询
+GET /_search
+{"query":{"match_phrase":{"city":{"query":"jing"}}}}
+
+# 多字段查询
+GET /testindex/_search
+{"query":{"multi_match":{"query":"jing","fields":["name","city"]}}}
+
+# 使用查询字符串的语法查询
+# 支持AND OR NOT条件、多字段查询
+GET /testindex/_search
+{"query":{"query_string":{"query":"test and jing","fields":["name","city"]}}}
+
+# term查询
+GET /testindex/_search
+{"query":{"term":{"gender":{"value":"male"}}}}
+
+# terms查询
+GET /testindex/_search
+{"query":{"terms":{"name": ["test", "dev"]}}}
+
+# exists查询
+GET /testindex/_search
+{"query":{"exists":{"field":"gender"}}}
+
+# 范围查询
+GET /testindex/_search
+{"query":{"range":{"age":{"gte":30,"lte":35}}}}
+
+# 通配符查询
+GET /testindex/_search
+{"query":{"wildcard":{"city":{"value":"ji*g"}}}}
+
+# boolean组合查询
+POST /testindex/_search
+{"query":{"bool":{
+  "must":{"term":{"name":"yy"}},
+  "must_not":{"range":{"age":{"gte":10,"lte":20}}},
+  "should":[{"term":{"gender":"male"}}]
+}}}
+
+# boost查询
+POST /testindex/_search
+{"query":{"boosting":{
+  "positive":{"term":{"name":"yy"}},
+  "negative":{"term":{"city":"shenzhen"}},
+  "negative_boost":0.5
+}}}
+
+# 解释查询
+GET /testindex/_explain/1
+{"query":{"match":{"name":"yy"}}}
+
+# 调试查询
+GET /testindex/_search
+{"profile":true,"query":{"match":{"name":"yy"}}}
+

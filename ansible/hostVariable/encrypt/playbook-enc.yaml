@@ -1,0 +1,10 @@
+- name: 显示所有变量值
+  hosts: all
+  tasks:
+    - name: 显示var的值
+      ansible.builtin.command: /bin/echo "The username is {{username}} and the password {{password}}"
+      register: response 
+    - name: Print result
+      debug:
+        var: response
+

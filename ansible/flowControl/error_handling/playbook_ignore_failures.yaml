@@ -1,0 +1,9 @@
+- name: Checks 
+  hosts: all
+  tasks:
+    - name: Try to show content of not existing file
+      ansible.builtin.command: cat /etc/a.txt
+      ignore_errors: true
+    - name: Show the content of an existing file
+      ansible.builtin.command: cat /etc/b.txt # <1>
+      ignore_errors: true

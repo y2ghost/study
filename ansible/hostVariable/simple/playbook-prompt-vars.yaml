@@ -1,0 +1,15 @@
+- name: 显示所有变量值
+  hosts: all
+  vars_prompt: # <1>
+    - name: msg_name # <2>
+      prompt: What's the name?
+      private: false # <3>
+      default: dev
+  tasks:
+    - name: 显示var的值
+      ansible.builtin.command: /bin/echo "Hello World {{msg_name}}"
+      register: response
+    - name: Print result
+      debug:
+        var: response
+

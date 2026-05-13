@@ -1,0 +1,32 @@
+DROP TABLE IF EXISTS users_user CASCADE;
+CREATE TABLE users_user (
+    ID          BIGSERIAL           NOT NULL,
+    EMAIL       VARCHAR(255)        NOT NULL UNIQUE,
+    NAME        VARCHAR(100)        NOT NULL,
+    PASSWORD    VARCHAR(255)        NOT NULL,
+    USER_ROLE   VARCHAR(5) ARRAY    NOT NULL DEFAULT ARRAY['INFO'],
+    ACTIVE      BOOLEAN             NOT NULL,
+    PRIMARY KEY (ID)
+);
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+DROP TABLE IF EXISTS card CASCADE;
+DROP TABLE IF EXISTS retro_board CASCADE;
+
+CREATE TABLE card
+(
+    ID             UUID DEFAULT uuid_generate_v4()  NOT NULL,
+    CARD_TYPE      VARCHAR(5)                       NOT NULL,
+    COMMENT        VARCHAR(255),
+    RETRO_BOARD_ID UUID,
+    PRIMARY KEY (ID)
+);
+
+CREATE TABLE retro_board
+(
+    ID   UUID DEFAULT uuid_generate_v4() NOT NULL,
+    NAME VARCHAR(255),
+    PRIMARY KEY (ID)
+);
+
+ALTER TABLE IF EXISTS card ADD CONSTRAINT retro_board_card FOREIGN KEY (retro_board_id) REFERENCES retro_board;

@@ -1,0 +1,266 @@
+/* 类选择器 */
+.boldred {
+  font-family: serif;
+  font-size: 20pt;
+  color: green;
+}
+
+/* ID选择器 */
+#importantInfo {
+  color: red;
+  font-size: 14pt;
+}
+
+#newspost {
+  background-color: silver;
+  margin-bottom: 20pt;
+}
+
+#newspost h1 {
+  color: blue;
+  font-size: 15pt;
+}
+
+#newspost p {
+  color: red;
+  font-size: 10pt;
+}
+
+.hoverClass {
+  font-size: 20pt;
+  color: red;
+}
+
+/* 伪元素示例 */
+.hoverClass:hover {
+  color: blue;
+}
+
+p {
+  color: green;
+}
+
+/* 通用选择器 */
+/* * {
+  margin: 0;
+  padding: 0;
+} */
+
+/* 相邻选择器 */
+h1 + p {
+  color: orangered;
+}
+
+section {
+  font-family: sans-serif;
+  font-size: 12pt;
+}
+
+section h1 {
+  color: green;
+  border-bottom: 1px solid green;
+  font-size: 15pt;
+}
+
+section p {
+  color: grey;
+}
+
+section h1 + p {
+  color: black;
+  font-size: 14pt;
+  font-style: italic;
+}
+
+div.test > p {
+  color: red;
+}
+
+p + ul a {
+  color: red;
+}
+
+/* 属性值选择器 */
+a[rel='external'] {
+  color: red;
+}
+
+a[rel='internal'] {
+  color: green;
+}
+
+a {
+  text-decoration: none;
+}
+
+a[href] {
+  color: green;
+}
+
+a:not([href]) {
+  color: silver;
+}
+
+a[href^='http:'] {
+  color: red;
+}
+
+a[href$='.png'] {
+  color: red;
+}
+
+a[href$='.mp3'] {
+  color: green;
+}
+
+a[href$='.pdf'] {
+  color: blue;
+}
+
+a[href*='users'] {
+  color: red;
+}
+
+a[href*='personal'] {
+  color: green;
+}
+
+/* 元素获得聚焦时的样式 */
+:focus {
+  background-color: beige;
+  color: green;
+}
+
+:link {
+  color: green;
+}
+
+:visited {
+  color: red;
+}
+
+input:disabled {
+  background-color: red;
+  border: 2px solid blue;
+}
+
+input:enabled {
+  background-color: yellow;
+  border: 2px solid green;
+}
+
+input:valid {
+  background-color: green;
+}
+
+input:invalid {
+  background-color: red;
+}
+
+input[type='number']:in-range {
+  background-color: yellow;
+}
+
+input[type='number']:out-of-range {
+  background-color: salmon;
+}
+
+.mydiv:empty {
+  display: none;
+}
+
+input[type='checkbox'],
+input[type='radio'] {
+  width: 20px;
+  height: 20px;
+}
+
+input[type='checkbox']:checked,
+input[type='radio']:checked {
+  width: 25px;
+  height: 25px;
+}
+
+input[type='checkbox']:checked + span.checkboxlabel {
+  color: red;
+}
+
+.bracketedLabel {
+  color: green;
+}
+
+.bracketedLabel::before {
+  content: '[';
+  color: red;
+}
+
+.bracketedLabel::after {
+  content: ']';
+  color: red;
+}
+
+.checkbox {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 20px;
+  font-family: sans-serif;
+}
+
+input[type='checkbox'] {
+  display: none;
+}
+
+.checkbox::before {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  background-color: green;
+  color: #f3f3f3;
+  text-align: center;
+  box-shadow: inset 0px 2px 3px 0px rgba(0, 0, 0, 0.3),
+    0px 1px 0px 0px rgba(255, 255, 255, 0.8);
+  border: 3px;
+}
+
+input[type='checkbox']:checked + .checkbox::before {
+  content: '\2713';
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  font-size: 15px;
+}
+
+ul > li:first-child {
+  color: red;
+}
+
+ul > li:last-child {
+  color: green;
+}
+
+ul > li:nth-child(3n) {
+  color: red;
+}
+
+.niceDiv {
+  width: 100px;
+  height: 100px;
+  background-color: beige;
+  padding: 4px;
+  border: 1px solid black;
+  display: inline-block;
+  margin: 15px;
+}
+
+.niceDiv.topLeftShadow {
+  box-shadow: -10px -10px 20px 5px #ff0000;
+}
+.niceDiv.bottomLeftShadow {
+  box-shadow: -10px 10px 20px 5px #00ff00;
+}
+.niceDiv.bottomRightShadow {
+  box-shadow: 10px 10px 20px 5px #0000ff;
+}
+.niceDiv.topRightShadow {
+  box-shadow: 10px -10px 20px 5px #ffff00;
+}

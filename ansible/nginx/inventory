@@ -1,0 +1,2 @@
+[node1]
+10.0.10.10 ansible_user=dev ansible_ssh_pass=unsafe_for_dev

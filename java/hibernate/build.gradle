@@ -1,0 +1,37 @@
+plugins {
+    id "java"
+}
+
+repositories {
+    maven { url "https://maven.aliyun.com/repository/public/" }
+}
+
+dependencies {
+    implementation "org.slf4j:slf4j-api:${slf4jApiVersion}"
+    implementation "ch.qos.logback:logback-core:${logbackVersion}"
+    implementation "ch.qos.logback:logback-classic:${logbackVersion}"
+    implementation "org.hibernate:hibernate-core:${hibernateVersion}"
+    implementation "org.hibernate:hibernate-validator:${hibernateValidatorVersion}"
+    implementation "org.hibernate:hibernate-validator-cdi:${hibernateValidatorVersion}"
+    implementation "javax.validation:validation-api:${validationApiVersion}"
+    implementation "org.hibernate:hibernate-c3p0:${hibernateVersion}"
+    implementation "org.mariadb.jdbc:mariadb-java-client:${mariadbClientVersion}"
+    implementation "org.glassfish:jakarta.el:${elVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sourceCompatibility = "11"
+targetCompatibility = "11"
+group = "study.ywork.hibernate"
+version = "1.0"
+description = "hibernate学习"
+

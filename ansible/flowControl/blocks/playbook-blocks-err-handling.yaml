@@ -1,0 +1,15 @@
+- name: Block example
+  hosts: all
+  tasks:
+  - name: Attempt and graceful roll back demo
+    block:
+      - name: install an invalid package
+        dnf:
+          name=qwehdjikn
+    rescue:
+      - debug:
+          msg: 'Oh there is an error'
+    always:
+      - debug:
+          msg: "This always executes"
+

@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<environments default="mariadb">
+		<environment id="mariadb">
+			<!-- 配置事务的类型 -->
+			<transactionManager type="JDBC"></transactionManager>
+			<!-- 配置数据源连接池 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="org.mariadb.jdbc.Driver" />
+				<property name="url"
+					value="jdbc:mariadb://192.168.56.166:3306/testdb" />
+				<property name="username" value="root" />
+				<property name="password" value="rootroot" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<!-- 指定映射配置文件的类路径位置 -->
+	<mappers>
+		<mapper resource="study/ywork/mybatis/dao/IUserDao.xml" />
+	</mappers>
+</configuration>

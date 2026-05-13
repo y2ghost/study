@@ -1,0 +1,183 @@
+Option Explicit
+' Range示例
+Sub rangeExample()
+Dim arrayRange As Variant
+arrayRange = Range("A1:C10").Value
+Debug.Print arrayRange(1, 1)
+Debug.Print arrayRange(1, 2)
+Debug.Print arrayRange(5, 3)
+
+Dim arraySplit As Variant
+arraySplit = Split("a,b,c", ",")
+Debug.Print arraySplit(0)
+Debug.Print arraySplit(1)
+Debug.Print arraySplit(2)
+
+Dim myArray() As Integer
+If Not Not myArray Then MsgBox UBound(myArray) Else MsgBox "数组未初始化！"
+
+Dim ws As Worksheet
+Dim r As Range
+Set ws = ThisWorkbook.Worksheets(1)
+Set r = ws.Range("A2")
+Set r = ws.Range("A" & 2)
+Set r = ws.Cells(2, 1)
+Set r = ws.[A2]
+Set r = ws.Range("A1").Offset(1, 0)
+Set r = ws.Range("A1").Cells(2, 1)
+Set r = ws.Range("A1:A5").Cells(2)
+Set r = ws.Range("A1:A5").Item(2)
+Set r = ws.Range("A1:A5")(2)
+
+End Sub
+
+' 单元格操作示例
+Sub cellExamples()
+' 单元格赋值
+[a1] = 11
+[A2] = 22
+[a3] = 33
+Application.Evaluate("a3") = "A3"
+
+Cells(3, 1).Formula = "=A1+A2"
+ActiveSheet.Cells(3, 1).Formula = "=SUM(A1:A2)"
+Sheets("Sheet1").Cells(3, 1).Formula = "=SUM(A1:A2)"
+ActiveSheet.Rows(1).Cells(3).Formula = "学习CELL技巧"
+
+End Sub
+
+' Range循环示例
+Sub rangeIteration()
+Dim wb As Workbook
+Dim ws As Worksheet
+Dim r As Range
+Dim i As Integer
+
+Set wb = ThisWorkbook
+Set ws = wb.Worksheets(1)
+
+For i = 1 To 10
+    Set r = ws.Range("A" & i)
+    Debug.Print r.Address
+Next i
+
+Dim j As Integer
+For i = 1 To 10
+    For j = 1 To 10
+        Set r = ws.Cells(i, j)
+        Debug.Print r.Address
+    Next j
+Next i
+
+End Sub
+
+' 反转Range示例
+Sub TransposeRangeValues()
+Dim TmpArray() As Variant, FromRange As Range, ToRange As Range
+Set FromRange = Sheets("Sheet1").Range("a1:a5")
+Set ToRange = ThisWorkbook.Sheets("Sheet1").Range("a1")
+TmpArray = Application.Transpose(FromRange.Value)
+FromRange.Clear
+ToRange.Resize(FromRange.Columns.count, FromRange.Rows.count).Value2 = TmpArray
+
+End Sub
+
+' 命名Range示例
+Sub namedRange()
+ThisWorkbook.Names.Add Name:="myRange", RefersTo:=Worksheets("sheet1").Range("A1")
+
+Dim rng As Range
+Set rng = ThisWorkbook.Worksheets("Sheet1").Range("myRange")
+Call MsgBox("width = " & rng.Value)
+Call MsgBox("width = " & [myrange])
+
+Dim ws As Worksheet
+Set ws = ThisWorkbook.Worksheets("Sheet1")
+
+' 提前创建units, max, min的命令Range
+Dim units As Range
+Set units = ThisWorkbook.Names("units").RefersToRange
+Worksheets("Sheet1").Range("max").Value = WorksheetFunction.Max(units)
+Worksheets("Sheet1").Range("min").Value = WorksheetFunction.Min(units)
+ThisWorkbook.Names("myRange").Delete
+
+End Sub
+
+' 查找重复值示例
+Sub findDuplicates()
+Dim ws As Worksheet
+Dim cell As Range
+Dim n As Integer
+Dim bFound As Boolean
+Dim sFound As String: sFound = "|"
+Dim s As String
+Dim s2 As String
+
+Set ws = ThisWorkbook.Sheets("Sheet1")
+For Each cell In ws.Range("A2:A7")
+    bFound = False: s2 = "" '
+    If InStr(sFound, "|" & cell & "|") = 0 Then
+        For n = cell.Row + 1 To 7
+            If cell = ws.Range("A" & n).Value Then
+                If cell.Row <> n Then
+                    bFound = True
+                    s2 = s2 & vbNewLine & " -> 重 A" & n
+                End If
+            End If
+        Next
+    End If
+
+    If bFound Then
+        sFound = sFound & cell & "|"
+        s = s & cell.Address & " (value=" & cell & ")" & s2 & vbNewLine & vbNewLine
+    End If
+Next
+
+MsgBox "重复值 " & sFound & vbNewLine & vbNewLine & s, vbInformation, "已发现重复元素"
+End Sub
+
+Function countUnique(r As Range) As Long
+Set r = Intersect(r, r.Worksheet.UsedRange)
+Dim c As New Collection, v
+On Error Resume Next
+For Each v In r.Value
+    c.Add 0, v & ""
+Next
+
+c.Remove ""
+countUnique = c.count
+
+End Function
+
+Sub testFunc()
+Dim count As Long
+Dim units As Range
+Set units = ThisWorkbook.Names("units").RefersToRange
+
+count = countUnique(units)
+Debug.Print count
+
+End Sub
+
+Sub testFormat()
+Range("a1:a10").FormatConditions.AddIconSetCondition
+With Selection.FormatConditions(1)
+.ReverseOrder = False
+.ShowIconOnly = False
+.IconSet = ActiveWorkbook.IconSets(xl3Arrows)
+End With
+
+With Selection.FormatConditions(1).IconCriteria(2)
+.Type = xlConditionValuePercent
+.Value = 33
+.Operator = 7
+End With
+
+With Selection.FormatConditions(1).IconCriteria(3)
+.Type = xlConditionValuePercent
+.Value = 67
+.Operator = 7
+End With
+
+End Sub
+

@@ -1,0 +1,117 @@
+# 基本的索引创建、文档创建、结构查询
+PUT /testindex
+
+GET /testindex
+
+POST /testindex/_doc/1
+{
+  "name": "yy",
+  "gender": "male",
+  "city": "bei jing"
+}
+
+GET /testindex/_doc/1
+
+GET /testindex/_mapping
+
+PUT /newindex
+
+PUT /newindex/_mapping
+{
+  "properties": {
+    "firstname": {
+      "type": "keyword"
+    },
+    "lastname": {
+      "type": "keyword"
+    },
+    "account_number": {
+      "type": "integer"
+    },
+    "balance": {
+      "type": "integer"
+    },
+    "age": {
+      "type": "integer"
+    },
+    "gender": {
+      "type": "keyword"
+    }
+  }
+}
+
+GET /newindex/_mapping
+
+# 冻结索引、使得只读
+POST /newindex/_freeze
+
+# 解冻索引
+POST /newindex/_unfreeze
+
+# 收缩索引
+POST /newindex/_shrink/yynew
+
+# 索引只读，才能执行后续的操作演示
+PUT /newindex/_settings
+{"settings":{"index.blocks.write":true}}
+
+# 拆分索引
+POST /newindex/_split/split-newindex
+{
+  "settings": {
+    "index.number_of_shards": 2
+  }
+}
+
+# 克隆索引
+POST /newindex/_clone/newcloneindex
+
+# 分库示例
+PUT /new_roll_index-000001
+{"aliases":{"roll_alias":{"logs":{"is_write_index":true}}}}
+
+POST /roll_alias/_rollover
+{
+  "conditions": {
+    "max_age": "7d",
+    "max_docs": 1000,
+    "max_size": "5gb"
+  }
+}
+
+# 配置索引
+PUT /newindex/_settings
+{"index":{"number_of_replicas":0}}
+
+GET /newindex/_settings
+
+# 索引模板示例
+PUT /_template/test_template
+{
+  "index_patterns": [
+    "an*",
+    "test*"
+  ],
+  "settings": {
+    "number_of_replicas": 0
+  },
+  "mappings": {
+    "_source": {
+      "enabled": false
+    },
+    "properties": {
+      "host_name": {
+        "type": "keyword"
+      },
+      "created_at": {
+        "type": "date",
+        "format": "EEE MMM dd HH:mm:ss Z yyyy"
+      }
+    }
+  }
+}
+
+GET /_template/test_template
+
+DELETE /_template/test_template
+

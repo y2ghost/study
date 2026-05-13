@@ -1,0 +1,35 @@
+allprojects {
+    group = "study.ywork.mybatis"
+    version = "1.0"
+}
+
+subprojects {
+    apply plugin: "java"
+    repositories {
+        maven { url "https://maven.aliyun.com/repository/public/" }
+    }
+    
+    dependencies {
+        implementation "org.mybatis:mybatis:${mybatisVersion}"
+        implementation "org.slf4j:slf4j-api:${slf4jApiVersion}"
+        implementation "ch.qos.logback:logback-core:${logbackVersion}"
+        implementation "ch.qos.logback:logback-classic:${logbackVersion}"
+        implementation "org.mariadb.jdbc:mariadb-java-client:${mariadbClientVersion}"
+        testImplementation "org.junit.jupiter:junit-jupiter-api:${junitVersion}"
+        testImplementation "org.junit.jupiter:junit-jupiter-engine:${junitVersion}"
+    }
+    
+    tasks.withType(JavaCompile) {
+        options.encoding = "UTF-8"
+    }
+    
+    test {
+        useJUnitPlatform()
+    }
+
+    sourceCompatibility = "11"
+    targetCompatibility = "11"
+}
+
+description = "mybatis学习项目"
+

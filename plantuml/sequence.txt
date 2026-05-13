@@ -1,0 +1,104 @@
+@startuml
+
+participant 参与者 as Foo
+actor Actor as Foo1 #red
+boundary Boundary as Foo2
+control Control as Foo3
+entity Entity as Foo4
+database Database as Foo5
+collections Collections as Foo6
+queue Queue as Foo7
+
+header 我是头
+footer 页面 %page% / %lastpage%
+title 序列图标题示例
+
+skinparam sequenceMessageAlign left
+skinparam responseMessageBelowArrow false
+autonumber
+
+Foo -> Foo1 : 角色
+note right
+participant来声明参与者
+声明的顺序是默认的显示顺序
+end note
+Foo -> Foo2 : 边界
+Foo -> Foo3 : 控制
+Foo -> Foo4 : 实体
+Foo -> Foo5 : 数据库
+Foo -> Foo6 : 集合
+Foo -> Foo7 : 队列
+Foo7 -> Foo : 出队
+
+autonumber 30
+客户端 ->x 服务端
+客户端 ->  服务端
+客户端 ->> 服务端
+客户端 -\  服务端
+客户端 \\- 服务端
+
+autonumber 50 10
+客户端 //-- 服务端
+客户端 ->o  服务端
+客户端 o\\-- 服务端
+客户端 <->   服务端
+客户端 <->o  服务端
+
+服务端 -> 客户端: 认证请求
+alt 成功情况
+    客户端 -> 服务端: 认证接受
+else 某种失败情况
+    客户端 -> 服务端: 认证失败
+    group 我自己的标签 [次级别标签]
+    服务端 -> 日志 : 开始记录攻击日志
+        loop 1000次
+            服务端 -> 客户端: DNS 攻击
+        end
+    服务端 -> 日志 : 结束记录攻击日志
+    end
+else 另一种失败
+    客户端 -> 服务端: 请重复
+end
+
+== 初始化==
+
+client -> server: 认证请求
+server --> client: 认证响应
+
+== 重复==
+
+client -> server: 认证请求
+client <-- server: 认证响应
+
+== 生命线 ==
+participant User
+User -> A: DoWork
+activate A #FFBBBB
+A -> A: Internal call
+activate A #DarkSalmon
+A -> B: << createRequest >>
+activate B
+B --> A: RequestCreated
+deactivate B
+deactivate A
+A -> User: Done
+deactivate A
+note left
+在指定目标参与者后，可以立即使用以下语法：
+++ 激活目标（可选择在后面加上 #color）
+-- 撤销激活源
+** 创建目标实例
+!! 摧毁目标实例
+end note
+
+alice -> bob ++ : hello
+bob -> bob ++ : self call
+bob -> bib ++ #005500 : hello
+bob -> george ** : create
+return done
+return rc
+bob -> george !! : delete
+return success
+
+@enduml
+
