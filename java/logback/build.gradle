@@ -1,0 +1,36 @@
+plugins {
+    id "application"
+}
+
+repositories {
+    mavenLocal()
+    maven { url = "https://maven.aliyun.com/repository/public/" }
+    mavenCentral()
+}
+
+dependencies {
+    implementation libs.logback.classic
+}
+
+testing {
+    suites {
+        test {
+            useTestNG("7.5.1")
+        }
+    }
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+application {
+    mainClass = "study.ywork.logback.Example"
+}
+
+group = "study.ywork"
+version = "1.0.0"
+description = "learn logback"
+
