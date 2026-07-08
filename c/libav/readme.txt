@@ -1,0 +1,4 @@
+学习ffmpeg的libav使用方法
+ffmpeg的版本是8.1.2
+examples目录的代码文件源自ffmpeg源代码doc/examples目录
+
